@@ -10,8 +10,8 @@ const favoritesRouter = require('./routers/favorites-router.js');
 apiRouter.use('/favorites', favoritesRouter);
 
 //Mounts the purchasesRouter
-const authenticationRouter = require('./routers/authentication-router.js');
-apiRouter.use('/authentication', authenticationRouter);
+const authRouter = require('./routers/auth-router.js');
+apiRouter.use('/auth', authRouter);
 
 //Handles all errors
 apiRouter.use((err, req, res, next) => {
