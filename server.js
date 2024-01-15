@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const {config} = require('./config.js');
 const cors = require('cors');
+require('dotenv').config()
 
 const app = express();
 
