@@ -9,6 +9,10 @@ const apiRouter = express.Router();
 const favoritesRouter = require('./routers/favorites-router.js');
 apiRouter.use('/favorites', favoritesRouter);
 
+//Mounts the purchasesRouter
+const authenticationRouter = require('./routers/authentication-router.js');
+apiRouter.use('/authentication', authenticationRouter);
+
 //Handles all unhandled errors
 apiRouter.use((err, req, res, next) => {
     if(!err.status){
