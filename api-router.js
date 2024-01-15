@@ -13,7 +13,7 @@ apiRouter.use('/favorites', favoritesRouter);
 const authenticationRouter = require('./routers/authentication-router.js');
 apiRouter.use('/authentication', authenticationRouter);
 
-//Handles all unhandled errors
+//Handles all errors
 apiRouter.use((err, req, res, next) => {
     if(!err.status){
       err.status = 500;
