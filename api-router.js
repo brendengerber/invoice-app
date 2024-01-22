@@ -6,8 +6,8 @@ require('dotenv').config()
 const apiRouter = express.Router();
 
 //Mounts the purchasesRouter
-const favoritesRouter = require('./routers/favorites-router.js');
-apiRouter.use('/favorites', favoritesRouter);
+const invoiceRouter = require('./routers/invoice-router.js');
+apiRouter.use('/favorites', invoiceRouter);
 
 //Mounts the purchasesRouter
 const authRouter = require('./routers/auth-router.js');
