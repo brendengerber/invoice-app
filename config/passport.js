@@ -35,16 +35,15 @@ passport.use(
 
 //Serializes the Github user profile, saving provider and the id from the provider (remoteId) for looking up the entire user object in the app database via deserialize on subsequent requests
 passport.serializeUser((user, done) => {
-    done(null, user.uuid);
+    done(null, user.id);
 });
 
 //Deserializes the user upon subsequent requests with an open session. Uses remoteId and provider stored to the session database by serialize to look up the full user from the app users database table (including their assigned uuid linked to other tables)
-passport.deserializeUser((uuid, done) => {
-    findUserByUuid(uuid)
+passport.deserializeUser((id, done) => {
+    findUserByUuid(id)
     .then(done(null, result))
     .catch(err => done(err))    
 });
-
 
 module.exports = passport;      
 
