@@ -2,7 +2,6 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const {config} = require('./config.js');
 const cors = require('cors');
 require('dotenv').config();
 const session = require('express-session');
@@ -39,7 +38,7 @@ app.use(function(req, res, next) {
 //***********Add secure when https is set up and samesite? */
 app.use(
   session({
-    secret: EXPRESS_SESSION_SECRET,
+    secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 60 *60 * 24 }
@@ -50,10 +49,7 @@ app.use(
 const apiRouter = require('./api-router.js');
 app.use('/', apiRouter);
 
-//Sets the port and starts the server
-const PORT = process.env.PORT || config.port;
-
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is listening on port ${process.env.PORT}`);
 });
   

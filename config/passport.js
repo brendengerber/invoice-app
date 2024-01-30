@@ -2,17 +2,16 @@
 const passport = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 require("dotenv").config();
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+
 
 //Configures passport to use the Github Strategy
 //Callback URL must match what is set in github Oauth app settings
 passport.use(
     new GitHubStrategy(
         {
-            githubOauthClientID: GITHUB_CLIENT_ID,
-            githubOauthClientSecret: GITHUB_CLIENT_SECRET,
-            githubOauthCallbackURL: "http://localhost:3000/api/auth/github/callback"
+            clientID: process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            callbackURL: process.env.GITHUB_CALLBACK_URL
         },
         //Associates the github profile to a user in the application database (where a uuid is assigned and used to look up data in other tables)
         //And creates the user if it does not exist
