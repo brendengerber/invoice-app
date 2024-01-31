@@ -9,7 +9,9 @@ CREATE TABLE users (
     "provider" varchar(15),
     "remote_id" integer,
     "photo_url" varchar(150),
-    "email" varchar(150)
+    "email" varchar(150),
+    "created_at" date,
+    "updated_at" date
 );
 
 CREATE TABLE invoices (
@@ -30,7 +32,9 @@ CREATE TABLE invoices (
   "date" date, 
   "payment_terms" varchar(15000),
   "project_description" varchar(15000),
-  "amount_due" numeric(100, 2)
+  "amount_due" numeric(100, 2),
+  "created_at" date,
+  "updated_at" date
 );
 
 --Items that are included on invoices
@@ -41,7 +45,9 @@ CREATE TABLE items (
   "name" varchar(150),
   "quantity" integer,
   "price" numeric(100, 2),
-  "total" numeric(100, 2)
+  "total" numeric(100, 2),  
+  "created_at" date,
+  "updated_at" date
 );
 
 CREATE INDEX invoices_user_id_idx ON invoices(user_id);
