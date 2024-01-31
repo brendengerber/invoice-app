@@ -3,10 +3,15 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const process = require('process');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const {db} = require('./config/database.js')
+const sequelize = require('../config/database.js')
+
+//Creates the db object
+const db = {}
+//Attatches the Sequelize library to the db object for easy access and to eliminate repeating imports
+db.Sequelize = Sequelize;
+//Attatches the connected/instantiated Sequelize instance to the db object 
+db.sequelize = sequelize;
 
 //Loops through the db models and attatches them to the db object
 fs.readdirSync(__dirname)
@@ -19,7 +24,7 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    const model = require(path.join(__dirname, file))(db.sequelize, db.Sequelize.DataTypes)
     db[model.name] = model;
   });
 
@@ -28,5 +33,9 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+
+
+db.user.findAll().then( result => console.log(result))
+
 
 module.exports = db;
