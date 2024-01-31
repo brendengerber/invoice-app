@@ -11,7 +11,7 @@ passport.use(
         {
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: process.env.GITHUB_CALLBACK_URL
+            callbackURL: `${process.env.URL}/api/auth/github/callback`
         },
         //Associates the github profile to a user in the application database (where a uuid is assigned and used to look up data in other tables)
         //And creates the user if it does not exist
