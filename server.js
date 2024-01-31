@@ -6,7 +6,7 @@ const cors = require('cors');
 require('dotenv').config();
 const session = require('express-session');
 const passport = require('./config/passport.js');
-const {db} = require('./config/database.js')
+const db = require('./config/database.js')
 const app = express();
 
 //Sets the server's port
