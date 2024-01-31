@@ -6,15 +6,14 @@ const cors = require('cors');
 require('dotenv').config();
 const session = require('express-session');
 const passport = require('./config/passport.js');
-
+const {db} = require('./config/database.js')
 const app = express();
+
+//Sets the server's port
+const PORT = process.env.PORT || 3000;
 
 //Remove after development to minimize unnecessary realtime logs on server
 app.use(morgan('tiny'));
-
-//Enables cors to allow for Swagger tests on localhost
-//Remove once app is hosted
-app.use(cors());
 
 //Security measures
 app.use(helmet());
@@ -49,7 +48,13 @@ app.use(
 const apiRouter = require('./api-router.js');
 app.use('/', apiRouter);
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is listening on port ${process.env.PORT}`);
+//Confirms database connection
+db.sequelize.authenticate()
+.then(() => console.log('Connection has been established successfully.'))
+.catch(err => console.error('Unable to connect to the database:', err));
+
+//Starts server
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
 });
   
