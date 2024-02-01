@@ -8,7 +8,7 @@ const session = require('express-session');
 var SequelizeStore = require("connect-session-sequelize")(session.Store);
 
 const passport = require('./config/passport.js');
-const db = require('./config/database.js')
+const db = require('./models/index.js')
 
 //Creates the server
 const app = express();
@@ -42,8 +42,8 @@ var sessionStore = new SequelizeStore({
   db: db.sequelize
 })
 
-//Creates the session store in the database if it doesn't exist
-sessionStore.sync();
+//Creates the session store in the database if it doesn't exist, uncomment for first run on a fresh db
+// sessionStore.sync();
 
 //Sets up Express session to be used on all routes
 //***********Add secure when https is set up and samesite? */

@@ -1,6 +1,6 @@
 //Imports necessary modules
 const express = require('express');
-require('dotenv').config()
+require('dotenv').config();
 
 //Creates the router
 const apiRouter = express.Router();
