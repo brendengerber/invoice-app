@@ -34,4 +34,8 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+ 
+// db.user.findAll().then( result => console.log(result))
+// console.dir(db.user, {depth: null})
+
 module.exports = db;

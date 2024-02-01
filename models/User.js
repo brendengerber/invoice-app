@@ -1,25 +1,33 @@
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataType) => {
     const User = sequelize.define('user', {
         id: {
-         type: Sequelize.STRING,
+         type: DataType.UUID,
          primaryKey: true
         },
         provider: {
-         type: Sequelize.STRING(15)
+         type: DataType.STRING(15)
         },
         remoteId: {
-         type: Sequelize.INTEGER
+         type: DataType.INTEGER
         },
         photoUrl: {
-         type: Sequelize.STRING(150)
+         type: DataType.STRING(150)
         },
         email: {
-         type: Sequelize.STRING(150)
+         type: DataType.STRING(150)
         }
      },{
         //Automatically converts camel cased fields in sequelize to underscored columns in postgres table
         underscored: true
      });
-     
+
+     User.associate = models => {
+      User.hasMany(models.invoice, {
+         foreignKey: "userId"
+      })
+      User.hasMany(models.invoiceItem), {
+         foreignKey: "userId"
+      }};
+
      return User
 };
