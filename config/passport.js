@@ -13,16 +13,24 @@ passport.use(
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
             callbackURL: `${process.env.URL}/api/auth/github/callback`
         },
-        //Associates the github profile to a user in the application database (where a uuid is assigned and used to look up data in other tables)
-        //And creates the user if it does not exist
-        //req.user will now be the full user from my database not the oauth profile
+        //This portion is called if there is no open session (i.e. the browser does not send a cookie)
+        //It then associates the github profile to a user in the application database by matching the provider and id in the profile to provider and remoteId in the app database
+        //Or creates the user if it does not exist using the github profile (assigning the app specific uuid used to look up data in other tables along with other relevant data like email)
+        //It then creates a session by assigning and storing a cookie in the session database 
+        //Then serializes the User for subsequent requests while the session is ongoing
+        //Note that req.user will now be the full user from the app database not the oauth profile
         (accessToken, refreshToken, profile, done) => {
-            findUserByOauthProfile(profile)
-            .then(result => {
-                if(result === null){
-                    return createUserByOauthProfile(profile)
+            //Finds a user based on the provider and providerId/remoteId from the profile obtained by Oauth
+            //If the user does not exist it creates one and assigns it an app specific UUID
+            return db.User.findOrCreate({
+                where: {
+                    provider: profile.provider,
+                    remoteId: profile.id
+                },
+                defaults: {
+                    photoUrl: profile.avatar_url,
+                    email: profile.email
                 }
-                return result
             })
             //****if doesn't work, should this be done(err, result) and remove the catch? */
             //like https://www.passportjs.org/packages/passport-github2/
@@ -31,15 +39,15 @@ passport.use(
         }
     )
 );
-
-//Serializes the Github user profile, saving provider and the id from the provider (remoteId) for looking up the entire user object in the app database via deserialize on subsequent requests
+//Serializes the app specific User object when creating a new session
+//Saves the UUID with the cookie to the session database, which is used for looking up the entire user object in the app database via deserializeUser on subsequent requests
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
-
-//Deserializes the user upon subsequent requests with an open session. Uses remoteId and provider stored to the session database by serialize to look up the full user from the app users database table (including their assigned uuid linked to other tables)
+//Deserializes the user upon subsequent requests with an open session by looking up the cookie in the session database
+//Uses the UUID stored to the session database by serializeUser to look up the full user from the app users database table and attatching it to req.User
 passport.deserializeUser((id, done) => {
-    findUserByUuid(id)
+    return db.User.findByPk(id)
     .then(done(null, result))
     .catch(err => done(err))    
 });
