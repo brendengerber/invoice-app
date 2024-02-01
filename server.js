@@ -5,8 +5,12 @@ const helmet = require('helmet');
 const cors = require('cors');
 require('dotenv').config();
 const session = require('express-session');
+var SequelizeStore = require("connect-session-sequelize")(session.Store);
+
 const passport = require('./config/passport.js');
 const db = require('./config/database.js')
+
+//Creates the server
 const app = express();
 
 //Sets the server's port
@@ -32,15 +36,25 @@ app.use(function(req, res, next) {
   return next();
 });
 
-//Express session set up to be used on all routes
-//***********Need to set up storrage */
+//**********Can all session logic be moved to a config file and exported? try after this is working */
+//Configures the session store
+var sessionStore = new SequelizeStore({
+  db: db.sequelize
+})
+
+//Creates the session store in the database if it doesn't exist
+sessionStore.sync();
+
+//Sets up Express session to be used on all routes
 //***********Add secure when https is set up and samesite? */
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
+    proxy: true,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 *60 * 24 }
+    cookie: { maxAge: 1000 * 60 *60 * 24 },
+    store: sessionStore
   })
 );
 

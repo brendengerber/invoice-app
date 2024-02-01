@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "connect-session-sequelize": "^7.1.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
@@ -22,9 +23,8 @@
     "dev": "nodemon server.js"
   },
   "name": "invoice-server",
-  "description": "for getting the joined items in an array\r https://stackoverflow.com/questions/39805736/get-join-table-as-array-of-results-with-postgresql-nodejs\r https://stackoverflow.com/questions/37664258/get-a-parents-children-tree-with-pg-promise",
   "version": "1.0.0",
   "main": "server.js",
-  "author": "",
+  "author": "Brenden Gerber",
   "license": "ISC"
 }
