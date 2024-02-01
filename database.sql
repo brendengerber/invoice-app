@@ -38,7 +38,7 @@ CREATE TABLE invoices (
 );
 
 --Items that are included on invoices
-CREATE TABLE items (
+CREATE TABLE invoice_items (
   "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   "invoice_id" UUID REFERENCES invoices(id) NOT NULL,
   "user_id" UUID REFERENCES users(id) NOT NULL,
@@ -51,5 +51,5 @@ CREATE TABLE items (
 );
 
 CREATE INDEX invoices_user_id_idx ON invoices(user_id);
-CREATE INDEX items_invoice_id_idx ON items(invoice_id);
-CREATE INDEX items_user_id_idx ON items(user_id);
+CREATE INDEX invoice_items_invoice_id_idx ON items(invoice_id);
+CREATE INDEX invoice_items_user_id_idx ON items(user_id);
