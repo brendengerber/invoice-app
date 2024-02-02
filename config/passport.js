@@ -2,7 +2,7 @@
 const passport = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 require("dotenv").config();
-
+const db = require('../models/index.js');
 
 //Configures passport to use the Github Strategy
 //Callback URL must match what is set in github Oauth app settings
@@ -11,7 +11,7 @@ passport.use(
         {
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: `${process.env.URL}/api/auth/github/callback`
+            callbackURL: `${process.env.URL}/auth/github/callback`
         },
         //This portion is called if there is no open session (i.e. the browser does not send a cookie)
         //It then associates the github profile to a user in the application database by matching the provider and id in the profile to provider and remoteId in the app database
@@ -22,7 +22,7 @@ passport.use(
         (accessToken, refreshToken, profile, done) => {
             //Finds a user based on the provider and providerId/remoteId from the profile obtained by Oauth
             //If the user does not exist it creates one and assigns it an app specific UUID
-            return db.User.findOrCreate({
+            db.user.findOrCreate({
                 where: {
                     provider: profile.provider,
                     remoteId: profile.id
@@ -32,9 +32,7 @@ passport.use(
                     email: profile.email
                 }
             })
-            //****if doesn't work, should this be done(err, result) and remove the catch? */
-            //like https://www.passportjs.org/packages/passport-github2/
-            .then(result => done(null, result)) 
+            .then(result => done(null, result[0].dataValues)) 
             .catch(err => done(err))           
         }
     )
@@ -47,8 +45,10 @@ passport.serializeUser((user, done) => {
 //Deserializes the user upon subsequent requests with an open session by looking up the cookie in the session database
 //Uses the UUID stored to the session database by serializeUser to look up the full user from the app users database table and attatching it to req.User
 passport.deserializeUser((id, done) => {
-    return db.User.findByPk(id)
-    .then(done(null, result))
+    db.user.findByPk(id)
+    .then(result => {
+        done(null, result.dataValues)
+    })
     .catch(err => done(err))    
 });
 

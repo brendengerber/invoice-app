@@ -26,16 +26,6 @@ app.disable('x-powered-by');
 //Parses request bodies to json
 app.use(express.json());
 
-//Initializes passport to be used on all routes
-app.use(passport.initialize());
-app.use(passport.session());
-
-//Allows images from github to load
-app.use(function(req, res, next) {
-  res.setHeader("Content-Security-Policy", "img-src self https://avatars.githubusercontent.com");
-  return next();
-});
-
 //**********Can all session logic be moved to a config file and exported? try after this is working */
 //Configures the session store
 var sessionStore = new SequelizeStore({
@@ -58,13 +48,23 @@ app.use(
   })
 );
 
+//Initializes passport to be used on all routes
+app.use(passport.initialize());
+app.use(passport.session());
+
+//Allows images from github to load
+app.use(function(req, res, next) {
+  res.setHeader("Content-Security-Policy", "img-src self https://avatars.githubusercontent.com");
+  return next();
+});
+
 //Mounts the api router
 const apiRouter = require('./api-router.js');
 app.use('/', apiRouter);
 
 //Confirms database connection
 db.sequelize.authenticate()
-.then(() => console.log('Connection has been established successfully.'))
+.then(() => console.log('Database connection has been established successfully.'))
 .catch(err => console.error('Unable to connect to the database:', err));
 
 //Starts server
