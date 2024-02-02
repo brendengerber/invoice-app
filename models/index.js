@@ -13,7 +13,7 @@ db.Sequelize = Sequelize;
 //Attatches the connected/instantiated Sequelize instance to the db object 
 db.sequelize = sequelize;
 
-//Loops through the db models and attatches them to the db object
+//Loops through the db model files
 fs.readdirSync(__dirname)
   .filter(file => {
     return (
@@ -23,11 +23,12 @@ fs.readdirSync(__dirname)
       file.indexOf('.test.js') === -1
     );
   })
+  //Passes in the proper args, creates the models from the files, and attachs them to the db object
   .forEach(file => {
-    const model = require(path.join(__dirname, file))(db.sequelize, db.Sequelize.DataTypes)
+    const model = require(path.join(__dirname, file))(db.sequelize, db.Sequelize, db.Sequelize.DataTypes)
     db[model.name] = model;
   });
-
+//Loops through the models and adds any associations if they exist
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

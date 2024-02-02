@@ -1,8 +1,11 @@
-module.exports = (sequelize, DataType) => {
+
+module.exports = (sequelize, Sequelize, DataType) => {
     const User = sequelize.define('user', {
         id: {
          type: DataType.UUID,
-         primaryKey: true
+         primaryKey: true,
+         //Needed to allow postgres database to auto assign uuid
+         defaultValue: Sequelize.literal( 'uuid_generate_v4()' )
         },
         provider: {
          type: DataType.STRING(15)
