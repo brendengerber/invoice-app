@@ -35,7 +35,7 @@ passport.use(
                     email: profile.email
                 }
             })
-            .then(result => done(null, result[0].dataValues)) 
+            .then(result => done(null, result[0])) 
             .catch(err => done(err))           
         }
     )
@@ -50,7 +50,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => {
     db.user.findByPk(id)
     .then(result => {
-        done(null, result.dataValues)
+        done(null, result)
     })
     .catch(err => done(err))    
 });
