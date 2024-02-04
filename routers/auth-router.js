@@ -2,8 +2,6 @@
 const express = require('express');
 require('dotenv').config();
 const passport = require('../config/passport.js');
-// const {ensureAuthenticated} = require('../custom-middleware/auth-middleware.js');
-
 
 //Creates the router
 const authRouter = express.Router();
