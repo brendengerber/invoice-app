@@ -11,7 +11,7 @@ function authorizeUser(roles, resource){
             //Checks if the logged in user has the admin role
             if(roles.includes('admin')){
                 if(req.user.admin){
-                    return next()
+                    return next();
                 }
             }
 
@@ -28,11 +28,11 @@ function authorizeUser(roles, resource){
                         } 
                     }
                     if(allAuthorized !== false){
-                        return next()
+                        return next();
                     }
                 //Handles cases of a single resource
                 }else if(req.user.id === req[resource].userId){
-                    authorized = true;
+                    return next();
                 }
             }
 
