@@ -4,11 +4,15 @@ require('dotenv').config();
 //It processes the redirect for unlogged in users
 //And it is also useful for identifying at a glance which routes are protected routes
 const ensureAuthenticated = function(req, res, next){
-    //req.isAuthenticated() will return true if user is logged in
-    if(req.isAuthenticated()){
-        return next();
-    }else{
-        res.redirect(process.env.LOGIN_URL);    
+    try{
+        //req.isAuthenticated() will return true if user is logged in
+        if(req.isAuthenticated()){
+            return next();
+        }else{
+            res.redirect(process.env.LOGIN_URL);    
+        }
+    }catch(err){
+        next(err);
     }
 };
 
