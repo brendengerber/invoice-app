@@ -3,6 +3,7 @@ const passport = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 require("dotenv").config();
 const db = require('../models/index.js');
+const {unwrapQueryResults} = require('../utilities/database-utilities.js')
 
 //Configures passport to use the Github Strategy
 //Callback URL must match what is set in github Oauth app settings
@@ -11,7 +12,7 @@ passport.use(
         {
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: `${process.env.URL}/auth/github/callback`
+            callbackURL: `${process.env.URL}/authentication/github/callback`
         },
         //This portion is called if there is no open session (i.e. the browser does not send a cookie)
         //It then associates the github profile to a user in the application database 
@@ -34,9 +35,12 @@ passport.use(
                     photoUrl: profile.avatar_url,
                     email: profile.email
                 }
-            })
-            .then(result => done(null, result[0])) 
-            .catch(err => done(err))           
+            }).then(results => {
+                console.log(results)
+                return unwrapQueryResults(results)
+            }).then(results => {
+                done(null, results[0])
+            }).catch(err => done(err))           
         }
     )
 );
