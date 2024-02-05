@@ -64,7 +64,7 @@ app.use('/', apiRouter);
 
 //Confirms database connection
 db.sequelize.authenticate()
-.then(() => console.log('Database connection has been established successfully.'))
+.then(() => console.log('Database connection has been established successfully'))
 .catch(err => console.error('Unable to connect to the database:', err));
 
 //Starts server

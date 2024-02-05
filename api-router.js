@@ -5,15 +5,15 @@ require('dotenv').config();
 //Creates the router
 const apiRouter = express.Router();
 
-//Mounts the purchasesRouter
+//Mounts the invoiceRouter
 const invoiceRouter = require('./routers/invoice-router.js');
-apiRouter.use('/favorites', invoiceRouter);
+apiRouter.use('/invoices', invoiceRouter);
 
-//Mounts the purchasesRouter
-const authRouter = require('./routers/auth-router.js');
-apiRouter.use('/auth', authRouter);
+//Mounts the authRouter
+const authRouter = require('./routers/authentication-router.js');
+apiRouter.use('/authenticate', authRouter);
 
-//Handles all errors
+//Handles all handled errors
 apiRouter.use((err, req, res, next) => {
     if(!err.status){
       err.status = 500;
