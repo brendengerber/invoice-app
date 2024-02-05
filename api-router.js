@@ -11,9 +11,9 @@ apiRouter.use('/invoices', invoiceRouter);
 
 //Mounts the authRouter
 const authRouter = require('./routers/authentication-router.js');
-apiRouter.use('/authenticate', authRouter);
+apiRouter.use('/authentication', authRouter);
 
-//Handles all handled errors
+//Handles all unhandled errors
 apiRouter.use((err, req, res, next) => {
     if(!err.status){
       err.status = 500;
