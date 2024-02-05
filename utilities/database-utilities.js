@@ -8,8 +8,10 @@ function unwrapQueryResults(results){
     let unwrappedResults;
     if(Array.isArray(results)){
         unwrappedResults = [];
-        for (result of results){
-            unwrappedResults.push(result.get({ plain: true }));
+        for (let result of results){
+            if(result.get){
+                unwrappedResults.push(result.get({ plain: true }));
+            } 
         }
     }else{
         unwrappedResults = results.get({ plain: true });
