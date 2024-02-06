@@ -2,13 +2,15 @@ module.exports = (sequelize, Sequelize, DataType) => {
     const Invoice = sequelize.define('invoice', {
         id: {
          type: DataType.UUID,
-         primaryKey: true
+         primaryKey: true,
+         //Needed to allow postgres database to auto assign uuid
+         defaultValue: Sequelize.literal( 'uuid_generate_v4()' )
         },
         userId: {
          type: DataType.UUID,
-         validate: {
-            allowNull: false
-         }
+         // validate: {
+         //    allowNull: false
+         // }
         },
         status: {
          type: DataType.STRING(15)
