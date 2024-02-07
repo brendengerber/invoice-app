@@ -19,12 +19,7 @@ function unwrapQueryResults(results){
 //Checks for empty results and throws an error if the query returned no results
 function checkForEmptyResults(results){
     if(results === undefined || results === null || results.length === 0){
-        if(process.env.NODE_ENV === 'development'){
-            throw new Error("The query returned no results", {statusCode: 404});
-        }else{
-            //Standard Access denied message for production so as to not disclose if a resource exists or not to potential bad actors
-            throw new Error("Access denied", {statusCode: 401});
-        }
+        throw new Error("The query returned no results", {statusCode: 404});   
     }
 };
 
@@ -44,6 +39,16 @@ function addUserIdToDatabaseObject(object, id){
     return object
 }
 
+//Displays full error message when server is set to development
+//Hides full error message when server is set to production to avoid providing information to potential bad actors
+function processQueryError(err){
+    if(process.env.NODE_ENV === 'development'){
+        next(err);
+    //Standard Access denied message for production so as to not disclose if a resource exists or not to potential bad actors
+    }else{
+        next(new Error("Access denied", {statusCode: 401}))
+    }
+}
 
 ///**********possibly not necessary as updates can be done with partials?? */
 //Updates properties of a database object with properties sent from a form submit
@@ -55,5 +60,6 @@ function updateDatabaseObject(object, objectUpdates){
 module.exports = {
     unwrapQueryResults,
     checkForEmptyResults,
-    addUserIdToDatabaseObject
+    addUserIdToDatabaseObject,
+    processQueryError
 };
