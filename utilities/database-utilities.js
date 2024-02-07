@@ -19,7 +19,7 @@ function unwrapQueryResults(results){
 //Checks for empty results and throws an error if the query returned no results
 function checkForEmptyResults(results){
     if(results === undefined || results === null || results.length === 0){
-        if(process.env.NODE_ENV === development){
+        if(process.env.NODE_ENV === 'development'){
             throw new Error("The query returned no results", {statusCode: 404});
         }else{
             //Standard Access denied message for production so as to not disclose if a resource exists or not to potential bad actors
