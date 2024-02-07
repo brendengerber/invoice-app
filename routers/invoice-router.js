@@ -15,20 +15,19 @@ invoiceRouter.param('id', checkParamId('invoiceId'));
 //Gets all invoices associated with an authenticated user
 invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
     res.status(200).send(req.invoices);
-})
+});
 
 //Gets an invoice associated with an authenticated user by Id
 invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), (req, res, next) => {
     res.status(200).send(req.invoice);
-})
+});
 
 //Posts an invoice associated with an authenticated user by Id
 invoiceRouter.post('/', ensureAuthenticated, checkReqInvoice, postUserInvoice, (req, res, next) => {
     res.status(200).send(req.newInvoice);
-})
+});
 
-
-
+invoiceRouter.put('/:id', ensureAuthenticated, checkReqInvoice, verifyUserAuthorization(['owner', 'admin'], 'invoice'))
 
 
 

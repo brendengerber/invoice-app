@@ -17,7 +17,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 //Adds helpful logs when server is set to development
-if(proccess.env.NODE_ENV === "development"){
+if(process.env.NODE_ENV === "development"){
   app.use(morgan('tiny'));
 }
 

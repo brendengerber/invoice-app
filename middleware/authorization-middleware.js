@@ -1,6 +1,6 @@
 //This function can be used to assign the roles that are allowed to access a route, and check if req.user has any of those roles
 //Roles is an array of roles allowed to access the resource on a specific route (admin, group memeber, owner)
-//Resource is a string for the req property that will be checked
+//Resource is a string for the req property for the resources that will be checked
 
 //New roles can be added by adding additional if statements and their associated checking logic 
 //New roles should return next() if the user is found to be authorized and do nothing if they are found unauthorized (as the function throws an unauthorized error by default)
@@ -36,7 +36,7 @@ function verifyUserAuthorization(roles, resource){
                 }
             }
 
-            //If no valid authorization is found a 401 error is thrown by default
+            //A 401 error is thrown by default unless a valid authorized role is found
             throw new Error("Access denied", {statusCode: 401});
             
         }catch(err){
