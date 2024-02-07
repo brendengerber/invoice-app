@@ -10,6 +10,8 @@ CREATE TABLE users (
     "remote_id" integer,
     "photo_url" varchar(150),
     "email" varchar(150),
+    --Used to access a join table to get an array of roles
+    "roles" UUID DEFAULT gen_random_uuid(),
     "created_at" date,
     "updated_at" date
 );

@@ -18,6 +18,16 @@ module.exports = (sequelize, Sequelize, DataType) => {
         },
         email: {
          type: DataType.STRING(150)
+        },
+        roles: {
+         type: DataType.UUID,
+         defaultValue: Sequelize.literal( 'uuid_generate_v4()' )
+        },
+        createdAt: {
+         type: DataType.DATE
+        },
+        UpdatedAt: {
+         type: DataType.DATE
         }
      },{
         //Automatically converts camel cased fields in sequelize to underscored columns in postgres table
@@ -26,10 +36,12 @@ module.exports = (sequelize, Sequelize, DataType) => {
 
      User.associate = models => {
       User.hasMany(models.invoice, {
-         foreignKey: "userId"
+         foreignKey: "userId",
+         onDelete: 'cascade'
       })
       User.hasMany(models.invoiceItem), {
-         foreignKey: "userId"
+         foreignKey: "userId",
+         onDelete: 'cascade'
       }};
 
      return User
