@@ -3,7 +3,7 @@ const express = require('express');
 require('dotenv').config();
 const {ensureAuthenticated} = require('../middleware/authentication-middleware.js');
 const {getUserInvoices, getUserInvoiceById, postUserInvoice, deleteUserInvoiceById, updateUserInvoiceById} = require('../middleware/invoice-middleware.js');
-const {authorizeUser} = require('../middleware/authorization-middleware.js');
+const {verifyUserAuthorization} = require('../middleware/authorization-middleware.js');
 const {checkParamId, checkReqInvoice} = require('../middleware/checking-middleware.js');
 
 //Creates the router
@@ -13,12 +13,12 @@ const invoiceRouter = express.Router();
 invoiceRouter.param('id', checkParamId('invoiceId'));
 
 //Gets all invoices associated with an authenticated user
-invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, authorizeUser(['owner', 'admin'], 'invoices'), (req, res, next) => {
+invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
     res.status(200).send(req.invoices);
 })
 
 //Gets an invoice associated with an authenticated user by Id
-invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, authorizeUser(['owner', 'admin'], 'invoice'), (req, res, next) => {
+invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), (req, res, next) => {
     res.status(200).send(req.invoice);
 })
 
@@ -33,7 +33,7 @@ invoiceRouter.post('/', ensureAuthenticated, checkReqInvoice, postUserInvoice, (
 
 
 
-invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, authorizeUser(['owner', 'admin'], 'invoice')), deleteUserInvoiceById, (req, res, next) => {
+invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice')), deleteUserInvoiceById, (req, res, next) => {
     res.status(200).send()
 }
 
@@ -46,7 +46,7 @@ invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, authorizeU
 
 
 //Updates an invoice associated with an authenticated user by Id
-invoiceRouter.put('/:id', ensureAuthenticated, checkReqInvoice, getUserInvoiceById, authorizeUser(['owner', 'admin'], 'invoice'), updateUserInvoiceById, (req, res, next) => {
+invoiceRouter.put('/:id', ensureAuthenticated, checkReqInvoice, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), updateUserInvoiceById, (req, res, next) => {
     res.status(200).send(req.invoice);
 })
 

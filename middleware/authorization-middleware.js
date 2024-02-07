@@ -5,12 +5,12 @@
 //New roles can be added by adding additional if statements and their associated checking logic 
 //New roles should return next() if the user is found to be authorized and do nothing if they are found unauthorized (as the function throws an unauthorized error by default)
 //This prevents other checks from being run once at least one valid authorized role is found
-function authorizeUser(roles, resource){
-    return authorizeUser[roles, resource] || (authorizeUser[roles, resource] = (req, res, next) => {
+function verifyUserAuthorization(roles, resource){
+    return (req, res, next) => {
         try{
             //Checks if the logged in user has the admin role
             if(roles.includes('admin')){
-                if(req.user.admin){
+                if(req.user.roles.includes('admin')){
                     return next();
                 }
             }
@@ -42,9 +42,9 @@ function authorizeUser(roles, resource){
         }catch(err){
             next(err);
         }
-    })
+    }
 };
 
 module.exports = {
-    authorizeUser
+    verifyUserAuthorization
 };
