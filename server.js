@@ -16,8 +16,10 @@ const app = express();
 //Sets the server's port
 const PORT = process.env.PORT || 3000;
 
-//Remove after development to minimize unnecessary realtime logs on server
-app.use(morgan('tiny'));
+//Adds helpful logs when server is set to development
+if(proccess.env.NODE_ENV === "development"){
+  app.use(morgan('tiny'));
+}
 
 //Security measures
 app.use(helmet());
