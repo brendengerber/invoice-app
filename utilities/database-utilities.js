@@ -28,18 +28,19 @@ function checkForEmptyResults(results){
 //Object is the object to update, newKey is a string for the key to be added, and newValue is the newKey's corresponding value
 //Useful for adding ids, userIds, invoiceIds, etc to objects with associations
 function addPropertyToDatabaseObject(object, newKey, newValue){
-    
+    //If the object is an object and not an array, adds the new key/value pair
+    //Important in case a property with type of string, number, float, etc is passed in
     if(object && typeof object === 'object' && !Array.isArray(object)){
         object[newKey] = newValue;
-    }else if(object && Array.isArray(object)){
-        for(let index of object){
-            addPropertyToDatabaseObject(index, newKey, newValue)
-        }
     }
     
+    //Loops over all the keys in the object calling the function on them if they are of type object
+    //In case the object is an array, this will also loop through the array and call the function on each index
     for(let key in object){
+        //In case the object is not an array, calls the function on it
         if(object[key] && typeof object[key] === 'object' && !Array.isArray(object[key])){
-            addPropertyToDatabaseObject(object[key], newKey, newValue);
+            addPropertyToDatabaseObject(object[key], newKey, newValue); 
+        //In case the object is an array, loops over the array, and calls the function on each index
         }else if(object[key] && Array.isArray(object[key])){
             for(let index of object[key]){
                 addPropertyToDatabaseObject(index, newKey, newValue);
@@ -47,17 +48,7 @@ function addPropertyToDatabaseObject(object, newKey, newValue){
         }
     }
     return object
-}
-
-
-let testObject = {
-    property1: {test: "test"},
-    property2: [{test2: "test 2"}, [{test3: "test 3"}]],
-    property3: [[[{test4: "test4"}]]]
-}
-
-console.dir(addPropertyToDatabaseObject(testObject, "id", 5), {depth: null})
-
+};
 
 //Displays full error message when server is set to development
 //Hides full error message when server is set to production to avoid providing information to potential bad actors
@@ -68,7 +59,7 @@ function processQueryError(err){
     }else{
         next(new Error("Access denied", {statusCode: 401}))
     }
-}
+};
 
 ///**********possibly not necessary as updates can be done with partials?? */
 //Updates properties of a database object with properties sent from a form submit
