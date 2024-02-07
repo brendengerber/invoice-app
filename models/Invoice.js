@@ -73,7 +73,8 @@ module.exports = (sequelize, Sequelize, DataType) => {
 
      Invoice.associate = models => {
       Invoice.hasMany(models.invoiceItem), {
-         foreignKey: "invoiceId"
+         foreignKey: "invoiceId",
+         onDelete: 'cascade'
       }
       
       Invoice.belongsTo(models.user, {

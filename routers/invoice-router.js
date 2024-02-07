@@ -2,7 +2,7 @@
 const express = require('express');
 require('dotenv').config();
 const {ensureAuthenticated} = require('../middleware/authentication-middleware.js');
-const {getUserInvoices, getUserInvoiceById, postUserInvoice, updateUserInvoiceById} = require('../middleware/invoice-middleware.js');
+const {getUserInvoices, getUserInvoiceById, postUserInvoice, deleteUserInvoiceById, updateUserInvoiceById} = require('../middleware/invoice-middleware.js');
 const {authorizeUser} = require('../middleware/authorization-middleware.js');
 const {checkParamId, checkReqInvoice} = require('../middleware/checking-middleware.js');
 
@@ -19,14 +19,9 @@ invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, authorizeUser(['
 
 //Gets an invoice associated with an authenticated user by Id
 invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, authorizeUser(['owner', 'admin'], 'invoice'), (req, res, next) => {
-    res.status(200).send();
+    res.status(200).send(req.invoice);
 })
 
-
-
-
-//******** any way to avoid sending userId with the items? */
-//*some how include it with association, grabbing the primary of the one it's associated to?
 //Posts an invoice associated with an authenticated user by Id
 invoiceRouter.post('/', ensureAuthenticated, checkReqInvoice, postUserInvoice, (req, res, next) => {
     res.status(200).send(req.newInvoice);
@@ -34,6 +29,13 @@ invoiceRouter.post('/', ensureAuthenticated, checkReqInvoice, postUserInvoice, (
 
 
 
+
+
+
+
+invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, authorizeUser(['owner', 'admin'], 'invoice')), deleteUserInvoiceById, (req, res, next) => {
+    res.status(200).send()
+}
 
 
 

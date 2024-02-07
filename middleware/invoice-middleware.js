@@ -1,6 +1,5 @@
 const db = require('../models/index.js');
-const {unwrapQueryResults} = require('../utilities/database-utilities.js');
-const {addUserIdToInvoice} = require('../services/database-services.js');
+const {unwrapQueryResults, checkForEmptyResults, addUserIdToDatabaseObject} = require('../utilities/database-utilities.js');
 
 function getUserInvoices(req, res, next){
     db.invoice.findAll({
@@ -11,6 +10,7 @@ function getUserInvoices(req, res, next){
             model: db.invoiceItem,
         }]
     }).then(results => {
+        checkForEmptyResults(results)
         return unwrapQueryResults(results);
     }).then(results => {
         req.invoices = results;
@@ -30,6 +30,7 @@ function getUserInvoiceById(req, res, next){
             model: db.invoiceItem
         }]
     }).then(results => {
+        checkForEmptyResults(results)
         return unwrapQueryResults(results);
     }).then(results => {
         req.invoice = results;
@@ -40,13 +41,13 @@ function getUserInvoiceById(req, res, next){
 }
 
 function postUserInvoice(req, res, next){
-    //Adds the user id to the appropriate columns before submitting the query
-    let newInvoiceWithUserId = addUserIdToInvoice(req.newInvoice, req.user.id);
-
+    // console.log(req.newInvoice)
     db.invoice.create(
-        newInvoiceWithUserId, 
+        //Adds the user id to the appropriate columns before submitting the query
+        addUserIdToDatabaseObject(req.newInvoice, req.user.id), 
         {include:[db.invoiceItem]}
     ).then(results => {
+        checkForEmptyResults(results)
         return unwrapQueryResults(results);
     }).then(results => {
         req.updatedInvoice = results;
@@ -57,11 +58,12 @@ function postUserInvoice(req, res, next){
 }
 
 
+function deleteUserInvoiceById(req, res, next){
 
+}
 
 
 function updateUserInvoiceById(req, res, next){
-
 
 }
 
@@ -74,5 +76,6 @@ module.exports = {
     getUserInvoices,
     getUserInvoiceById,
     postUserInvoice,
+    deleteUserInvoiceById,
     updateUserInvoiceById
 };
