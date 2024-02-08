@@ -16,4 +16,14 @@ authRouter.get('/github/callback', passport.authenticate('github', {
     successRedirect: `${process.env.URL}/home`
 }));
 
+//Logs out of any open passport session
+authRouter.post('/logout', (req, res, next) => {
+    req.logout(function(err){
+        if(err){
+            return next(err);
+        }
+        res.redirect('/');
+    })
+})
+
 module.exports = authRouter;
