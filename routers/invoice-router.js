@@ -2,7 +2,7 @@
 const express = require('express');
 require('dotenv').config();
 const {ensureAuthenticated} = require('../middleware/authentication-middleware.js');
-const {getUserInvoices, getUserInvoiceById, postUserInvoice, deleteUserInvoiceById, updateUserInvoiceById} = require('../middleware/invoice-middleware.js');
+const {getUserInvoices, getUserInvoiceById, postUserInvoice, deleteUserInvoiceById, putUserInvoiceById} = require('../middleware/invoice-middleware.js');
 const {verifyUserAuthorization} = require('../middleware/authorization-middleware.js');
 const {checkParamId, checkReqInvoice} = require('../middleware/checking-middleware.js');
 
@@ -24,10 +24,17 @@ invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAut
 
 //Posts an invoice associated with an authenticated user by Id
 invoiceRouter.post('/', ensureAuthenticated, checkReqInvoice, postUserInvoice, (req, res, next) => {
-    res.status(200).send(req.newInvoice);
+    res.status(201).send(req.newInvoice);
 });
 
-invoiceRouter.put('/:id', ensureAuthenticated, checkReqInvoice, verifyUserAuthorization(['owner', 'admin'], 'invoice'))
+//make sure checkReqInvoice is accessing the req.updatedInvoice, somehow attatch req.original invoice?
+invoiceRouter.put('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), checkReqInvoice, putUserInvoiceById, (req, res, next) => {
+    res.status(201).send();
+});
+
+
+
+
 
 
 
@@ -44,9 +51,6 @@ invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, verifyUser
 
 
 
-//Updates an invoice associated with an authenticated user by Id
-invoiceRouter.put('/:id', ensureAuthenticated, checkReqInvoice, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), updateUserInvoiceById, (req, res, next) => {
-    res.status(200).send(req.invoice);
-})
+
 
 module.exports = invoiceRouter;

@@ -1,11 +1,13 @@
 {
   "dependencies": {
+    "@hatchifyjs/sequelize-create-with-associations": "^0.6.6",
     "connect-session-sequelize": "^7.1.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "express-session": "^1.18.0",
     "helmet": "^7.1.0",
+    "lodash": "^4.17.21",
     "morgan": "^1.10.0",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
