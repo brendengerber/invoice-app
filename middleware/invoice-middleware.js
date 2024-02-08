@@ -41,14 +41,13 @@ function getUserInvoiceById(req, res, next){
     })
 };
 
-//*******can include be formatted like gets?
 function postUserInvoice(req, res, next){
     db.invoice.create(
         //Adds the user id to the appropriate columns before submitting the query
         addPropertyToDatabaseObject(req.newInvoice, "userId", req.user.id), {
-            include:[
-                db.invoiceItem
-            ]
+            include:[{
+                model:  db.invoiceItem
+            }]
         }
     ).then(results => {
         checkForEmptyResults(results);
@@ -61,16 +60,16 @@ function postUserInvoice(req, res, next){
     });
 };
 
-//******same about brackets */
-//*********can set up to auto role back transaction?
 async function putUserInvoiceById(req, res, next){
 
     let t;
     try{
+        //Creates the new transaction where all queries will be added
         t = await db.sequelize.transaction();
         
+        //Query to update the invoice (excluding associations)
         db.invoice.update(
-            //Adds the user id to the appropriate columns before submitting the query
+            //Adds the user id to the appropriate records before submitting the query
             addPropertyToDatabaseObject(req.newInvoice, "userId", req.user.id), {
                 where: {
                     id: req.invoiceId,
@@ -78,12 +77,15 @@ async function putUserInvoiceById(req, res, next){
                 }
             }, {transaction: t}).catch(err => {
                 next(processQueryError(err));
-            })
-
+            });
+        
+        //Creates a list of invoiceItem ids submitted with the updated invoice that already exist, (i.e. non new/existing invoiceItems)
         const idsToUpdate = req.newInvoice.invoiceItems
+        //Removes invoiceItems that don't have an id property
         .filter(ingredient => ingredient.id)
+        //Returns the id for each remaining invoiceItem
         .map(ingredient => ingredient.id)
-
+        //Query to delete any invoiceItems that were present in the original invoice, but not present in the updated invoice
         db.invoiceItem.destroy({
             where: {
                 id: {
@@ -93,11 +95,14 @@ async function putUserInvoiceById(req, res, next){
             }
         }, {transaction: t}).catch(err => {
             next(processQueryError(err));
-        })
+        });
 
+        //Loops over the invoiceItems in the new invoice and adds a query to the transaction to either update or create the record
         for(let invoiceItem of req.newInvoice.invoiceItems){
+            //Adds the user and invoice ids to the appropriate records before submitting the query
             invoiceItem = addPropertyToDatabaseObject(invoiceItem, "userId", req.user.id);
             invoiceItem = addPropertyToDatabaseObject(invoiceItem, "invoiceId", req.invoice.id);
+            //Updates the invoiceItem if it exists, or creates it if it's new
             db.invoiceItem.upsert(
                 invoiceItem, {
                     where: {
@@ -107,13 +112,15 @@ async function putUserInvoiceById(req, res, next){
                 }, {transaction: t}
             ).catch(err => {
                 next(processQueryError(err));
-            })
+            });
         } 
 
+        //Commits the transaction's queries
         await t.commit();
         next();
 
     }catch(err){
+        //Roles back any queries if the transaction throws an error
         if (t) {
             t.rollback().then(delete t);
         }
