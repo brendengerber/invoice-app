@@ -54,19 +54,12 @@ function addPropertyToDatabaseObject(object, newKey, newValue){
 //Hides full error message when server is set to production to avoid providing information to potential bad actors
 function processQueryError(err){
     if(process.env.NODE_ENV === 'development'){
-        next(err);
+        return err
     //Standard Access denied message for production so as to not disclose if a resource exists or not to potential bad actors
     }else{
-        next(new Error("Access denied", {statusCode: 401}))
+        return new Error("Access denied", {statusCode: 401})
     }
 };
-
-///**********possibly not necessary as updates can be done with partials?? */
-//Updates properties of a database object with properties sent from a form submit
-//Recursive function will check nested objects from associations as well
-function updateDatabaseObject(object, objectUpdates){
-
-}
 
 module.exports = {
     unwrapQueryResults,
