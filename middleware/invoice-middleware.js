@@ -120,13 +120,16 @@ function postUserInvoice(req, res, next){
     });
 };
 
+//***********is this adding invoiceId to invoice? i.e. invoice.invoiceId */
+//***********function is also not currently adding invoice.id from req.invoice.id */
+//*****it does properly add userId to everything though, the others liek invoice.invoiceId don't get added because they are not included in the query, still sloppy tho */
 async function putUserInvoiceById(req, res, next){
     let t;
     try{
-        //Adds id properties to the newInvoice where appropriate
+        //Adds id properties to the newInvoice where appropriate in case they do not already exist from the object sent by the front end
         //Allows invoice objects to be sent from frontend without id properties
+        req.newInvoice.id = req.invoice.id;
         req.newInvoice = addPropertyToDatabaseObject(req.newInvoice, "userId", req.user.id);
-        req.newInvoice = addPropertyToDatabaseObject(req.newInvoice, "invoiceId", req.invoice.id);
 
         //Creates the new transaction where all queries will be added
         t = await db.sequelize.transaction();
@@ -163,6 +166,10 @@ async function putUserInvoiceById(req, res, next){
 
         //Loops over the invoiceItems in the new invoice and adds a query to the transaction to either update or create the record
         for(let invoiceItem of req.newInvoice.invoiceItems){
+            
+            //Adds the invoice id in case it does not already exist from the object sent by the frontend
+            invoiceItem.invoiceId = req.invoice.id
+            
             //Updates the invoiceItem if it exists, or creates it if it's new
             db.invoiceItem.upsert(
                 invoiceItem, {
