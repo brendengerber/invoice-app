@@ -124,6 +124,7 @@ async function putUserInvoiceById(req, res, next){
     let t;
     try{
         //Adds id properties to the newInvoice where appropriate
+        //Allows invoice objects to be sent from frontend without id properties
         req.newInvoice = addPropertyToDatabaseObject(req.newInvoice, "userId", req.user.id);
         req.newInvoice = addPropertyToDatabaseObject(req.newInvoice, "invoiceId", req.invoice.id);
 
