@@ -61,7 +61,7 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(req, res) {
-  res.redirect('https://' + domain + req.originalUrl);
+  res.redirect('https://' + process.env.URL + req.originalUrl);
 });
 
 //Mounts the api router
