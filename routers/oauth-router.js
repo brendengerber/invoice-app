@@ -16,4 +16,4 @@ oauthRouter.get('/success', (req, res, next) => {
 });
 
 //Exports the router
-module.exports = apiRouter;
+module.exports = oauthRouter;
