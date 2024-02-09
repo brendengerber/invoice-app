@@ -2,7 +2,7 @@
 const express = require('express');
 require('dotenv').config();
 const {ensureAuthenticated} = require('../middleware/authentication-middleware.js');
-const {getUserInvoices, getUserInvoiceById, getUserDraftInvoicesById, getUserPublishedInvoicesById, postUserInvoice, deleteUserInvoiceById, putUserInvoiceById} = require('../middleware/invoice-middleware.js');
+const {getUserInvoices, getUserInvoiceById, getUserDraftInvoices, getUserPendingInvoices, getUserPaidInvoices, postUserInvoice, deleteUserInvoiceById, putUserInvoiceById} = require('../middleware/invoice-middleware.js');
 const {verifyUserAuthorization} = require('../middleware/authorization-middleware.js');
 const {checkParamId, checkReqInvoice} = require('../middleware/checking-middleware.js');
 
@@ -16,6 +16,37 @@ invoiceRouter.param('id', checkParamId('invoiceId'));
 invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
+
+
+
+
+
+
+
+
+//Gets all paid invoices associated with an authenticated user by Id
+invoiceRouter.get('/draft', ensureAuthenticated, getUserDraftInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+    res.status(200).send(req.invoices);
+});
+
+//Gets all pending invoices associated with an authenticated user by Id
+invoiceRouter.get('/pending', ensureAuthenticated, getUserPendingInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+    res.status(200).send(req.invoices);
+});
+
+//Gets all draft invoices associated with an authenticated user by Id
+invoiceRouter.get('/paid', ensureAuthenticated, getUserPaidInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+    res.status(200).send(req.invoices);
+});
+
+
+
+
+
+
+
+
+
 
 //Gets an invoice associated with an authenticated user by Id
 invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), (req, res, next) => {

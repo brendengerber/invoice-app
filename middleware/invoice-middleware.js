@@ -21,6 +21,66 @@ function getUserInvoices(req, res, next){
     });
 }; 
 
+function getUserDraftInvoices(req, res, next){
+    db.invoice.findAll({
+        where: {
+            userId: req.user.id,
+            status: "draft"
+        },
+        include: [{
+            model: db.invoiceItem,
+        }]
+    }).then(results => {
+        checkForEmptyResults(results);
+        return unwrapQueryResults(results);
+    }).then(results => {
+        req.invoices = results;
+        next();
+    }).catch(err => {
+        next(processQueryError(err));
+    });
+};
+
+function getUserPendingInvoices(req, res, next){
+    db.invoice.findAll({
+        where: {
+            userId: req.user.id,
+            status: "pending"
+        },
+        include: [{
+            model: db.invoiceItem,
+        }]
+    }).then(results => {
+        checkForEmptyResults(results);
+        return unwrapQueryResults(results);
+    }).then(results => {
+        req.invoices = results;
+        next();
+    }).catch(err => {
+        next(processQueryError(err));
+    });
+};
+
+function getUserPaidInvoices(req, res, next){
+    db.invoice.findAll({
+        where: {
+            userId: req.user.id,
+            status: "paid"
+        },
+        include: [{
+            model: db.invoiceItem,
+        }]
+    }).then(results => {
+        checkForEmptyResults(results);
+        return unwrapQueryResults(results);
+    }).then(results => {
+        req.invoices = results;
+        next();
+    }).catch(err => {
+        next(processQueryError(err));
+    });
+};
+
 function getUserInvoiceById(req, res, next){
     db.invoice.findOne({
         where: {
@@ -40,15 +100,6 @@ function getUserInvoiceById(req, res, next){
         next(processQueryError(err));
     })
 };
-
-function getUserDraftInvoicesById(req, res, next){
-
-}
-
-function getUserPublishedInvoicesById(req, res, next){
-
-}
-
 
 function postUserInvoice(req, res, next){
     db.invoice.create(
@@ -152,23 +203,39 @@ function deleteUserInvoiceById(req, res, next){
 }
 
 
-db.invoice.destroy({
-    where: {
-        userId: "ed8fdd40-b807-4e51-b1f5-90fb5b7f6e73",
-        id: "8f045c11-8eda-4c9a-ba57-97e2a69c3559"
-    }
-}).then(result => console.log(result)).catch(err => console.log(err))
 
 
 
-//on updated cascade?
-//on delete cascade?
+
+
+
+// db.invoice.findAll({
+//     where: {
+//         userId: "ed8fdd40-b807-4e51-b1f5-90fb5b7f6e73",
+//         status: "draft"
+//     },
+//     include: [{
+//         model: db.invoiceItem,
+//     }]
+// }).then(results => {
+//     checkForEmptyResults(results);
+//     return unwrapQueryResults(results);
+// }).then(results => {
+//     console.log("results", results)
+// }).catch(err => {
+//     console.log(err)
+// });
+
+
+
+
 
 module.exports = {
     getUserInvoices,
     getUserInvoiceById,
-    getUserDraftInvoicesById,
-    getUserPublishedInvoicesById,
+    getUserDraftInvoices,
+    getUserPendingInvoices,
+    getUserPaidInvoices,
     postUserInvoice,
     deleteUserInvoiceById,
     putUserInvoiceById
