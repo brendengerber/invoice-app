@@ -60,6 +60,10 @@ app.use(function(req, res, next) {
   return next();
 });
 
+app.use(function(req, res) {
+  res.redirect('https://' + domain + req.originalUrl);
+});
+
 //Mounts the api router
 const apiRouter = require('./api-router.js');
 app.use('/', apiRouter);
