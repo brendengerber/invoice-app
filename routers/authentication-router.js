@@ -16,14 +16,6 @@ authRouter.get('/github/callback', passport.authenticate('github', {
     successRedirect: `/success`
 }));
 
-authRouter.get('/failure', (req, res, next) => {
-    res.redirect(`${process.env.FRONTEND_URL}/login`)
-})
-
-authRouter.get('/success', (req, res, next) => {
-    res.redirect(`github.com`)
-})
-
 //Logs out of any open passport session
 authRouter.post('/logout', (req, res, next) => {
     req.logout(function(err){
