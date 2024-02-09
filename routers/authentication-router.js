@@ -12,9 +12,17 @@ authRouter.get('/github', passport.authenticate('github', {scope: ['user']}));
 //Callback route which Github will call following the authentication attempt
 //User will be redirected based on the success of the authentication attempt
 authRouter.get('/github/callback', passport.authenticate('github', {
-    failureRedirect: `${process.env.FRONTEND_URL}/login`,
-    successRedirect: `${process.env.FRONTEND_URL}/home`
+    failureRedirect: `/failure`,
+    successRedirect: `/success`
 }));
+
+authRouter.get('/failure', (req, res, next => {
+    res.redirect(`${process.env.FRONTEND_URL}/login`)
+}))
+
+authRouter.get('/success', (req, res, next => {
+    res.redirect(`${process.env.FRONTEND_URL}/home`)
+}))
 
 //Logs out of any open passport session
 authRouter.post('/logout', (req, res, next) => {
