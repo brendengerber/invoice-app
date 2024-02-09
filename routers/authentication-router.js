@@ -21,7 +21,7 @@ authRouter.get('/failure', (req, res, next) => {
 })
 
 authRouter.get('/success', (req, res, next) => {
-    res.redirect(`${process.env.FRONTEND_URL}/home`)
+    res.redirect(`github.com`)
 })
 
 //Logs out of any open passport session
