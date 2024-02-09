@@ -32,6 +32,7 @@ function verifyUserAuthorization(roles, resource){
                     }
                 //Handles cases of a single resource
                 }else if(req.user.id === req[resource].userId){
+                    console.log('test')
                     return next();
                 }
             }

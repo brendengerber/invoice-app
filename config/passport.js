@@ -36,7 +36,6 @@ passport.use(
                     email: profile.email
                 }
             }).then(results => {
-                console.log(results)
                 return unwrapQueryResults(results)
             }).then(results => {
                 done(null, results[0])

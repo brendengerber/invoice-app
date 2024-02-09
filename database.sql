@@ -18,7 +18,7 @@ CREATE TABLE users (
 
 CREATE TABLE invoices (
   "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  "user_id" UUID REFERENCES users(id) NOT NULL,
+  "user_id" UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
   "status" varchar(15),
   "invoice_number" integer,
   "bill_from_street_address" varchar(150),
@@ -42,8 +42,8 @@ CREATE TABLE invoices (
 --Items that are included on invoices
 CREATE TABLE invoice_items (
   "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  "invoice_id" UUID REFERENCES invoices(id) NOT NULL,
-  "user_id" UUID REFERENCES users(id) NOT NULL,
+  "invoice_id" UUID REFERENCES invoices(id) ON DELETE CASCADE NOT NULL,
+  "user_id" UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
   "name" varchar(150),
   "quantity" integer,
   "price" numeric(100, 2),

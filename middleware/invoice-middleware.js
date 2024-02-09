@@ -41,6 +41,15 @@ function getUserInvoiceById(req, res, next){
     })
 };
 
+function getUserDraftInvoicesById(req, res, next){
+
+}
+
+function getUserPublishedInvoicesById(req, res, next){
+
+}
+
+
 function postUserInvoice(req, res, next){
     db.invoice.create(
         //Adds the user id to the appropriate columns before submitting the query
@@ -61,7 +70,6 @@ function postUserInvoice(req, res, next){
 };
 
 async function putUserInvoiceById(req, res, next){
-
     let t;
     try{
         //Creates the new transaction where all queries will be added
@@ -128,23 +136,28 @@ async function putUserInvoiceById(req, res, next){
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
 function deleteUserInvoiceById(req, res, next){
-
+    console.log(req.invoiceId)
+    db.invoice.destroy({
+        where: {
+            userId: req.user.id,
+            id: req.invoiceId
+        }
+    }).then(results => {
+        next()
+    }).catch(err => {
+        console.log(err)
+        next(processQueryError(err));
+    });
 }
 
 
-
+db.invoice.destroy({
+    where: {
+        userId: "ed8fdd40-b807-4e51-b1f5-90fb5b7f6e73",
+        id: "8f045c11-8eda-4c9a-ba57-97e2a69c3559"
+    }
+}).then(result => console.log(result)).catch(err => console.log(err))
 
 
 
@@ -154,6 +167,8 @@ function deleteUserInvoiceById(req, res, next){
 module.exports = {
     getUserInvoices,
     getUserInvoiceById,
+    getUserDraftInvoicesById,
+    getUserPublishedInvoicesById,
     postUserInvoice,
     deleteUserInvoiceById,
     putUserInvoiceById

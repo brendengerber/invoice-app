@@ -2,7 +2,7 @@
 const express = require('express');
 require('dotenv').config();
 const {ensureAuthenticated} = require('../middleware/authentication-middleware.js');
-const {getUserInvoices, getUserInvoiceById, postUserInvoice, deleteUserInvoiceById, putUserInvoiceById} = require('../middleware/invoice-middleware.js');
+const {getUserInvoices, getUserInvoiceById, getUserDraftInvoicesById, getUserPublishedInvoicesById, postUserInvoice, deleteUserInvoiceById, putUserInvoiceById} = require('../middleware/invoice-middleware.js');
 const {verifyUserAuthorization} = require('../middleware/authorization-middleware.js');
 const {checkParamId, checkReqInvoice} = require('../middleware/checking-middleware.js');
 
@@ -32,16 +32,9 @@ invoiceRouter.put('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAut
     res.status(201).send();
 });
 
-
-
-
-
-
-
-
-invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice')), deleteUserInvoiceById, (req, res, next) => {
-    res.status(200).send()
-}
+invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), deleteUserInvoiceById, (req, res, next) => {
+    res.status(200).send();
+})
 
 
 
