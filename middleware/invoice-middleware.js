@@ -123,13 +123,17 @@ function postUserInvoice(req, res, next){
 async function putUserInvoiceById(req, res, next){
     let t;
     try{
+        //Adds id properties to the newInvoice where appropriate
+        req.newInvoice = addPropertyToDatabaseObject(req.newInvoice, "userId", req.user.id);
+        req.newInvoice = addPropertyToDatabaseObject(req.newInvoice, "invoiceId", req.invoice.id);
+
         //Creates the new transaction where all queries will be added
         t = await db.sequelize.transaction();
         
         //Query to update the invoice (excluding associations)
         db.invoice.update(
             //Adds the user id to the appropriate records before submitting the query
-            addPropertyToDatabaseObject(req.newInvoice, "userId", req.user.id), {
+            req.newInvoice, {
                 where: {
                     id: req.invoiceId,
                     userId: req.user.id,
@@ -158,9 +162,6 @@ async function putUserInvoiceById(req, res, next){
 
         //Loops over the invoiceItems in the new invoice and adds a query to the transaction to either update or create the record
         for(let invoiceItem of req.newInvoice.invoiceItems){
-            //Adds the user and invoice ids to the appropriate records before submitting the query
-            invoiceItem = addPropertyToDatabaseObject(invoiceItem, "userId", req.user.id);
-            invoiceItem = addPropertyToDatabaseObject(invoiceItem, "invoiceId", req.invoice.id);
             //Updates the invoiceItem if it exists, or creates it if it's new
             db.invoiceItem.upsert(
                 invoiceItem, {
