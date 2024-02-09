@@ -60,13 +60,6 @@ app.use(function(req, res, next) {
   return next();
 });
 
-//Redirects all traffic to https
-//Useful for Oauth callbacks etc
-// app.use(function(req, res) {
-//   console.log('https://' + process.env.URL + req.originalUrl);
-//   res.redirect('https://' + process.env.URL + req.originalUrl);
-// });
-
 //Mounts the api router
 const apiRouter = require('./api-router.js');
 app.use('/', apiRouter);
