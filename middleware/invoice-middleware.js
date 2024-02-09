@@ -202,34 +202,6 @@ function deleteUserInvoiceById(req, res, next){
     });
 }
 
-
-
-
-
-
-
-
-// db.invoice.findAll({
-//     where: {
-//         userId: "ed8fdd40-b807-4e51-b1f5-90fb5b7f6e73",
-//         status: "draft"
-//     },
-//     include: [{
-//         model: db.invoiceItem,
-//     }]
-// }).then(results => {
-//     checkForEmptyResults(results);
-//     return unwrapQueryResults(results);
-// }).then(results => {
-//     console.log("results", results)
-// }).catch(err => {
-//     console.log(err)
-// });
-
-
-
-
-
 module.exports = {
     getUserInvoices,
     getUserInvoiceById,

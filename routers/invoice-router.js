@@ -17,13 +17,6 @@ invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, verifyUserAuthor
     res.status(200).send(req.invoices);
 });
 
-
-
-
-
-
-
-
 //Gets all paid invoices associated with an authenticated user by Id
 invoiceRouter.get('/draft', ensureAuthenticated, getUserDraftInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
     res.status(200).send(req.invoices);
@@ -38,15 +31,6 @@ invoiceRouter.get('/pending', ensureAuthenticated, getUserPendingInvoices, verif
 invoiceRouter.get('/paid', ensureAuthenticated, getUserPaidInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
-
-
-
-
-
-
-
-
-
 
 //Gets an invoice associated with an authenticated user by Id
 invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), (req, res, next) => {
@@ -66,15 +50,5 @@ invoiceRouter.put('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAut
 invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), deleteUserInvoiceById, (req, res, next) => {
     res.status(200).send();
 })
-
-
-
-
-
-
-
-
-
-
 
 module.exports = invoiceRouter;
