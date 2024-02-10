@@ -16,9 +16,6 @@ apiRouter.use('/authentication', authRouter);
 const userRouter = require('./routers/user-router.js');
 apiRouter.use('/user', userRouter);
 
-const oauthRouter = require('./routers/oauth-router.js');
-apiRouter.use('/', oauthRouter);
-
 //Handles all unhandled errors
 apiRouter.use((err, req, res, next) => {
     if(!err.status){
