@@ -22,10 +22,25 @@ Useage: In order to test routes in browser, make sure to visit the authenticatio
 
 ### Endpoint: Github User Authentication
 * Description: Authenticates a User via Github Oauth 2.0 and starts a session
-* Notes: After authentication, subsequent requests will automatically send the session cookie and user specific data will be returened from all endpoints
+* Notes: User will be redirected (idealy in a new window) to authenticate, once the Oauth dance has finsished, front end can check the status code returned and redirect accordingly (likey to user profile page or back to login screen)
 * Path: `/authentication/github`
 * Method: GET
-* Response: Redirect to Github Oauth
+* Failure Response Code: 401
+* Success Response Code: 200
+* Success Response: JSON Object
+* Sample Success Response: 
+```
+{
+    "id": "ed8fdd40-b807-4e51-b1f5-90fb5b7f6e73",
+    "provider": "github",
+    "remoteId": 10082638,
+    "photoUrl": null,
+    "email": null,
+    "roles": "80b0de9d-3dd2-487a-8b9c-e81770417fb0",
+    "createdAt": "2024-02-04",
+    "updatedAt": "2024-02-04"
+}
+```
 
 ### Endpoint: User Logout
 * Description: Logs a user out of their current session
