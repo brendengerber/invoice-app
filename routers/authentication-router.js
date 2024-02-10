@@ -17,11 +17,11 @@ authRouter.get('/github/callback', passport.authenticate('github', {
 }));
 
 //Redirects callback redirects from Oauth to the front end pages not hosted on the api subdomain
-oauthRouter.get('/failure', (req, res, next) => {
+authRouter.get('/failure', (req, res, next) => {
     res.status(401).send();
 });
 
-oauthRouter.get('/success', (req, res, next) => {
+authRouter.get('/success', (req, res, next) => {
     res.status(200).send(req.user);
 });
 
