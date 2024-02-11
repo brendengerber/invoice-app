@@ -11,6 +11,7 @@ authRouter.get('/github', passport.authenticate('github', {scope: ['user']}));
 
 //Callback route which Github will call following the authentication attempt
 //User will be redirected based on the success of the authentication attempt
+//*******If this doesnt work with frontend, might need to change redirects to a call back that sends that stuff? */
 authRouter.get('/github/callback', passport.authenticate('github', {
     failureRedirect: `/authentication/failure`,
     successRedirect: `/authentication/success`

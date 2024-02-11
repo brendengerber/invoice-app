@@ -19,9 +19,9 @@ function verifyUserAuthorization(roles, resource){
             if(roles.includes('owner')){
                 //Handles cases where the resource is an array and checks ownership of all resources in the array
                 //If ownership is found false on any resource, the check fails, and authorized is left as false
-                if(Array.isArray(req[resource])){
+                if(Array.isArray(resource)){
                     let allAuthorized;
-                    for(let item of req[resource]){
+                    for(let item of resource){
                         if(req.user.id !== item.userId){
                             allAuthorized = false;
                             break;
@@ -31,7 +31,7 @@ function verifyUserAuthorization(roles, resource){
                         return next();
                     }
                 //Handles cases of a single resource
-                }else if(req.user.id === req[resource].userId){
+                }else if(req.user.id === resource.userId){
                     return next();
                 }
             }

@@ -13,27 +13,34 @@ const invoiceRouter = express.Router();
 invoiceRouter.param('id', checkParamId('invoiceId'));
 
 //Gets all invoices associated with an authenticated user
-invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, verifyUserAuthorization(['owner', 'admin'], req.invoices), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
 
 //Gets all paid invoices associated with an authenticated user by Id
-invoiceRouter.get('/draft', ensureAuthenticated, getUserDraftInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+invoiceRouter.get('/draft', ensureAuthenticated, getUserDraftInvoices, verifyUserAuthorization(['owner', 'admin'], req.invoices), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
 
-//Gets all pending invoices associated with an authenticated user by Id
-invoiceRouter.get('/pending', ensureAuthenticated, getUserPendingInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+//Gets pending invoices associated with an authenticated user by Id
+invoiceRouter.get('/pending', ensureAuthenticated, getUserPendingInvoices, verifyUserAuthorization(['owner', 'admin'], req.invoices), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
 
-//Gets all draft invoices associated with an authenticated user by Id
-invoiceRouter.get('/paid', ensureAuthenticated, getUserPaidInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+//Gets draft invoices associated with an authenticated user by Id
+invoiceRouter.get('/paid', ensureAuthenticated, getUserPaidInvoices, verifyUserAuthorization(['owner', 'admin'], req.invoices), (req, res, next) => {
+    res.status(200).send(req.invoices);
+});
+
+//Gets all invoices assoicated with an authenticated user by page
+//The page parameter is an integer of which page you would like to request
+//The resultsPerPage is an integer for how many results you would like per page
+invoiceRouter.get('/all/:page/:resultsPerPage', ensureAuthenticated, getUserInvoicesByPage, verifyUserAuthorization(['owner', 'admin'], req.page.invoices), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
 
 //Gets an invoice associated with an authenticated user by Id
-invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), (req, res, next) => {
+invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], req.invoice), (req, res, next) => {
     res.status(200).send(req.invoice);
 });
 
@@ -43,11 +50,11 @@ invoiceRouter.post('/', ensureAuthenticated, checkReqInvoice, postUserInvoice, (
 });
 
 //make sure checkReqInvoice is accessing the req.updatedInvoice, somehow attatch req.original invoice?
-invoiceRouter.put('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), checkReqInvoice, putUserInvoiceById, (req, res, next) => {
+invoiceRouter.put('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], req.invoice), checkReqInvoice, putUserInvoiceById, (req, res, next) => {
     res.status(201).send();
 });
 
-invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), deleteUserInvoiceById, (req, res, next) => {
+invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], req.invoice), deleteUserInvoiceById, (req, res, next) => {
     res.status(200).send();
 })
 
