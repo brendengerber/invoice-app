@@ -5,48 +5,68 @@ const db = require('../models/index.js');
 const {unwrapQueryResults, checkForEmptyResults, addPropertyToDatabaseObject, processQueryError} = require('../utilities/database-utilities.js');
 const _ = require('lodash');
 
-function getUserInvoices(req, res, next){
-    db.invoice.findAll({
-        where: {
-            userId: req.user.id
-        },
-        include: [{
-            model: db.invoiceItem,
-        }]
-    }).then(results => {
-        checkForEmptyResults(results);
-        return unwrapQueryResults(results);
-    }).then(results => {
-        req.invoices = results;
-        next();
-    }).catch(err => {
-        next(processQueryError(err));
-    });
-}; 
-
-//Gets all user invoices by status
-//Status should be a string of "draft", "pending", or "paid"
-function getUserInvoicesByStatus(status){
+//Gets all user invoices
+//As function returns the middleware, it must be called by the route (ie. with parenthases at the end)
+//Optional argument "status" should be a string of "draft", "pending", or "paid"
+function getUserInvoices(status = undefined){
     return (req, res, next) => {
-        db.invoice.findAll({
-            where: {
+        let whereClause;
+        if(status){
+            whereClause = {
                 userId: req.user.id,
                 status: status
-            },
+            }
+        }else{
+            console.log('all')
+            whereClause = {
+                userId: req.user.id,
+            }
+        }
+        db.invoice.findAll({
+            where: whereClause,
             include: [{
                 model: db.invoiceItem,
             }]
-        }).then(results => {
+        }).then(results =>  {
             checkForEmptyResults(results);
-            return unwrapQueryResults(results);
+            return results;
         }).then(results => {
-            req.invoices = results;
+            req.invoices = unwrapQueryResults(results);
             next();
         }).catch(err => {
             next(processQueryError(err));
-        }); 
-    }
-}
+        });
+    }; 
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function getUserInvoiceById(req, res, next){
     db.invoice.findOne({
@@ -176,11 +196,6 @@ function deleteUserInvoiceById(req, res, next){
 module.exports = {
     getUserInvoices,
     getUserInvoiceById,
-    getUserInvoicesByStatus,
-    getUserDraftInvoices,
-    getUserPendingInvoices,
-    getUserPaidInvoices,
-    getUserInvoicesByPage,
     postUserInvoice,
     deleteUserInvoiceById,
     putUserInvoiceById
