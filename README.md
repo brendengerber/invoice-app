@@ -22,9 +22,9 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 
 ### **1. AUTHENTICATION ENDPOINTS**
 
-### Endpoint: Github User Authentication
-* Description: Authenticates a User via Github Oauth 2.0 and starts a session
-* Notes: User will be redirected (idealy in a new window) to authenticate, once the Oauth dance has finsished, front end can check the status code returned and redirect accordingly (likey to user profile page or back to login screen)
+### Endpoint: User Github Authentication
+* Description: Authenticates a User via Github Oauth 2.0 and starts a session.
+* Notes: User will be redirected (idealy in a new window) to authenticate, once the Oauth dance has finsished, front end can check the status code returned and redirect accordingly (likey to user profile page or back to login screen).
 * Path: `/authentication/github`
 * Method: GET
 * Failure Response Code: 401
@@ -45,7 +45,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 ```
 
 ### Endpoint: User Logout
-* Description: Logs a user out of their current session
+* Description: Logs a user out of their current session.
 * Path: `/logout`
 * Method: POST
 * Response: Redirect to homepage
@@ -76,8 +76,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 
 ### **3. INVOICE ENDPOINTS**
 
-### Endpoint: Get All User Invoices
-* Description: Gets all invoices associated with a logged in user
+### Endpoint: Get All Invoices
+* Description: Gets all invoices associated with a logged in user.
 * Path: `/invoices/all`
 * Method: GET
 * Response Success Code: 200
@@ -183,8 +183,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 ]
 ```
 
-### Endpoint: Get User Draft Invoices
-* Description: Gets all draft invoices associated with a logged in user
+### Endpoint: Get Draft Invoices
+* Description: Gets all draft invoices associated with a logged in user.
 * Notes: The property "invoice.status" must be set to "draft" to populate.
 * Path: `/invoices/draft`
 * Method: GET
@@ -291,8 +291,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 ]
 ```
 
-### Endpoint: Get User Pending Invoices
-* Description: Gets all pending invoices associated with a logged in user
+### Endpoint: Get Pending Invoices
+* Description: Gets all pending invoices associated with a logged in user.
 * Notes: The property "invoice.status" must be set to "pending" to populate.
 * Path: `/invoices/pending`
 * Method: GET
@@ -400,8 +400,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 ```
 
 
-### Endpoint: Get User Paid Invoices
-* Description: Gets all paid invoices associated with a logged in user
+### Endpoint: Get Paid Invoices
+* Description: Gets all paid invoices associated with a logged in user.
 * Notes: The property "invoice.status" must be set to "paid" to populate.
 * Path: `/invoices/paid`
 * Method: GET
@@ -508,8 +508,468 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 ]
 ```
 
-### Endpoint: Get User Invoice By Id
-* Description: Gets an invoice associated with a logged in user by id
+### Endpoint: Get Paginated Invoices
+* Description: Gets a specified page of invoices associated with a logged in user.
+* Path: `/invoices/all/:pageNumber/:resultsPerPage`
+* Method: GET
+* Response Success Code: 200
+* Response: JSON Object
+* Sample Response:
+
+```
+{
+     "metadata": {
+        "page": 1,
+        "totalPages": 2,
+        "totalInvoices": 3
+    },
+    page:[
+        {
+            "id": null,
+            "userId": null,
+            "status": paid,
+            "invoiceNumber": null,
+            "billFromStreetAddress": null,
+            "billFromCity": null,
+            "billFromPostalCode": null,
+            "billFromCountry": null,
+            "billToName": null,
+            "billToEmail": null,
+            "billToStreetAddress": null,
+            "billToCity": null,
+            "billToPostalCode": null,
+            "billToCountry": null,
+            "date": null,
+            "paymentTerms": null,
+            "projectDescription": null,
+            "amountDue": null,
+            "createdAt": "YYYY-MM-DD",
+            "UpdatedAt": "YYYY-MM-DD",
+            "updatedAt": "YYYY-MM-DD",
+            "invoiceItems": [
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                },
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                }
+            ]
+        },
+        {
+            "id": null,
+            "userId": null,
+            "status": paid,
+            "invoiceNumber": null,
+            "billFromStreetAddress": null,
+            "billFromCity": null,
+            "billFromPostalCode": null,
+            "billFromCountry": null,
+            "billToName": null,
+            "billToEmail": null,
+            "billToStreetAddress": null,
+            "billToCity": null,
+            "billToPostalCode": null,
+            "billToCountry": null,
+            "date": null,
+            "paymentTerms": null,
+            "projectDescription": null,
+            "amountDue": null,
+            "createdAt": "YYYY-MM-DD",
+            "UpdatedAt": "YYYY-MM-DD",
+            "updatedAt": "YYYY-MM-DD",
+            "invoiceItems": [
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                },
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### Endpoint: Get Paginated Draft Invoices
+* Description: Gets a specified page of invoices associated with a logged in user.
+* Notes: The property "invoice.status" must be set to "draft" to populate.
+* Path: `/invoices/draft/:pageNumber/:resultsPerPage`
+* Method: GET
+* Response Success Code: 200
+* Response: JSON Object
+* Sample Response:
+
+```
+{
+     "metadata": {
+        "page": 1,
+        "totalPages": 2,
+        "totalInvoices": 3
+    },
+    page:[
+        {
+            "id": null,
+            "userId": null,
+            "status": draft,
+            "invoiceNumber": null,
+            "billFromStreetAddress": null,
+            "billFromCity": null,
+            "billFromPostalCode": null,
+            "billFromCountry": null,
+            "billToName": null,
+            "billToEmail": null,
+            "billToStreetAddress": null,
+            "billToCity": null,
+            "billToPostalCode": null,
+            "billToCountry": null,
+            "date": null,
+            "paymentTerms": null,
+            "projectDescription": null,
+            "amountDue": null,
+            "createdAt": "YYYY-MM-DD",
+            "UpdatedAt": "YYYY-MM-DD",
+            "updatedAt": "YYYY-MM-DD",
+            "invoiceItems": [
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                },
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                }
+            ]
+        },
+        {
+            "id": null,
+            "userId": null,
+            "status": draft,
+            "invoiceNumber": null,
+            "billFromStreetAddress": null,
+            "billFromCity": null,
+            "billFromPostalCode": null,
+            "billFromCountry": null,
+            "billToName": null,
+            "billToEmail": null,
+            "billToStreetAddress": null,
+            "billToCity": null,
+            "billToPostalCode": null,
+            "billToCountry": null,
+            "date": null,
+            "paymentTerms": null,
+            "projectDescription": null,
+            "amountDue": null,
+            "createdAt": "YYYY-MM-DD",
+            "UpdatedAt": "YYYY-MM-DD",
+            "updatedAt": "YYYY-MM-DD",
+            "invoiceItems": [
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                },
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                }
+            ]
+        }
+    ]
+}
+```
+
+### Endpoint: Get Paginated Pending Invoices
+* Description: Gets a specified page of invoices associated with a logged in user.
+* Notes: The property "invoice.status" must be set to "pending" to populate.
+* Path: `/invoices/pending/:pageNumber/:resultsPerPage`
+* Method: GET
+* Response Success Code: 200
+* Response: JSON Object
+* Sample Response:
+
+```
+{
+     "metadata": {
+        "page": 1,
+        "totalPages": 2,
+        "totalInvoices": 3
+    },
+    page:[
+        {
+            "id": null,
+            "userId": null,
+            "status": pending,
+            "invoiceNumber": null,
+            "billFromStreetAddress": null,
+            "billFromCity": null,
+            "billFromPostalCode": null,
+            "billFromCountry": null,
+            "billToName": null,
+            "billToEmail": null,
+            "billToStreetAddress": null,
+            "billToCity": null,
+            "billToPostalCode": null,
+            "billToCountry": null,
+            "date": null,
+            "paymentTerms": null,
+            "projectDescription": null,
+            "amountDue": null,
+            "createdAt": "YYYY-MM-DD",
+            "UpdatedAt": "YYYY-MM-DD",
+            "updatedAt": "YYYY-MM-DD",
+            "invoiceItems": [
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                },
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                }
+            ]
+        },
+        {
+            "id": null,
+            "userId": null,
+            "status": pending,
+            "invoiceNumber": null,
+            "billFromStreetAddress": null,
+            "billFromCity": null,
+            "billFromPostalCode": null,
+            "billFromCountry": null,
+            "billToName": null,
+            "billToEmail": null,
+            "billToStreetAddress": null,
+            "billToCity": null,
+            "billToPostalCode": null,
+            "billToCountry": null,
+            "date": null,
+            "paymentTerms": null,
+            "projectDescription": null,
+            "amountDue": null,
+            "createdAt": "YYYY-MM-DD",
+            "UpdatedAt": "YYYY-MM-DD",
+            "updatedAt": "YYYY-MM-DD",
+            "invoiceItems": [
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                },
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                }
+            ]
+        }
+    ]
+}
+```
+### Endpoint: Get Paginated Paid Invoices
+* Description: Gets a specified page of invoices associated with a logged in user.
+* Notes: The property "invoice.status" must be set to "paid" to populate.
+* Path: `/invoices/paid/:pageNumber/:resultsPerPage`
+* Method: GET
+* Response Success Code: 200
+* Response: JSON Object
+* Sample Response:
+
+```
+{
+     "metadata": {
+        "page": 1,
+        "totalPages": 2,
+        "totalInvoices": 3
+    },
+    page:[
+        {
+            "id": null,
+            "userId": null,
+            "status": paid,
+            "invoiceNumber": null,
+            "billFromStreetAddress": null,
+            "billFromCity": null,
+            "billFromPostalCode": null,
+            "billFromCountry": null,
+            "billToName": null,
+            "billToEmail": null,
+            "billToStreetAddress": null,
+            "billToCity": null,
+            "billToPostalCode": null,
+            "billToCountry": null,
+            "date": null,
+            "paymentTerms": null,
+            "projectDescription": null,
+            "amountDue": null,
+            "createdAt": "YYYY-MM-DD",
+            "UpdatedAt": "YYYY-MM-DD",
+            "updatedAt": "YYYY-MM-DD",
+            "invoiceItems": [
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                },
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                }
+            ]
+        },
+        {
+            "id": null,
+            "userId": null,
+            "status": paid,
+            "invoiceNumber": null,
+            "billFromStreetAddress": null,
+            "billFromCity": null,
+            "billFromPostalCode": null,
+            "billFromCountry": null,
+            "billToName": null,
+            "billToEmail": null,
+            "billToStreetAddress": null,
+            "billToCity": null,
+            "billToPostalCode": null,
+            "billToCountry": null,
+            "date": null,
+            "paymentTerms": null,
+            "projectDescription": null,
+            "amountDue": null,
+            "createdAt": "YYYY-MM-DD",
+            "UpdatedAt": "YYYY-MM-DD",
+            "updatedAt": "YYYY-MM-DD",
+            "invoiceItems": [
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                },
+                {
+                    "id": null,
+                    "invoiceId": null,
+                    "userId": null,
+                    "name": null,
+                    "quantity": null,
+                    "price": null,
+                    "total": null,
+                    "createdAt": "YYYY-MM-DD",
+                    "updatedAt": "YYYY-MM-DD"
+                }
+            ]
+        }
+    ]
+}
+```
+
+
+
+### Endpoint: Get Invoice By Id
+* Description: Gets an invoice associated with a logged in user by id.
 * Path: `/invoices/:id`
 * Method: GET
 * Response Success Code: 200
@@ -566,7 +1026,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 }
 ```
 ### Endpoint: Add New Invoice
-* Description: Adds a new invoice associated with a logged in user
+* Description: Adds a new invoice associated with a logged in user.
 * Notes: Invoice objects sent to add do not need to include an id properties.
 * Path: `/invoices/:id`
 * Method: POST
@@ -618,8 +1078,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 }
 ```
 
-### Endpoint: Update User Invoice By Id
-* Description: Updates an invoice associated with a logged in user by id
+### Endpoint: Update Invoice By Id
+* Description: Updates an invoice associated with a logged in user by id.
 * Notes: Invoice objects sent to add can, but do not need to include userId or invoiceId properties. The id property for any existing invoice items however should be included in order to help keep a clean audit history (new items will not have an id).
 * Path: `/invoices/:id`
 * Method: PUT
@@ -674,8 +1134,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     ]
 }
 ```
-### Endpoint: Delete User Invoice By Id
-* Description: Deletes an invoice associated with a logged in user by id
+### Endpoint: Delete Invoice By Id
+* Description: Deletes an invoice associated with a logged in user by id.
 * Path: `/invoices/:id`
 * Method: DELETE
 * Response Success Code: 200

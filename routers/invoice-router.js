@@ -34,51 +34,33 @@ invoiceRouter.get('/paid', ensureAuthenticated, getUserInvoices('paid'), verifyU
     res.status(200).send(req.invoices);
 });
 
-
-
-
-
-
-
-
-
-
-
-//***********************Need testing
-//Can the last three all use the same middleware taking an extra arg for the where clause? same for the above three?
-//getUserInvoicesByStatus
-
 //Gets all invoices assoicated with an authenticated user by page
 //The pageNumber parameter is an integer of which page you would like to request
 //The resultsPerPage is an integer for how many results you would like per page
 invoiceRouter.get('/all/:pageNumber/:resultsPerPage', ensureAuthenticated, getPaginatedUserInvoices(), verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
-    res.status(200).send({page: req.page, metadata: req.metadata});
+    res.status(200).send({metadata: req.metadata, page: req.page});
 });
 
+//Gets all invoices assoicated with an authenticated user by page
+//The pageNumber parameter is an integer of which page you would like to request
+//The resultsPerPage is an integer for how many results you would like per page
 invoiceRouter.get('/draft/:pageNumber/:resultsPerPage', ensureAuthenticated, getPaginatedUserInvoices('draft'), verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
-    res.status(200).send({page: req.page, metadata: req.metadata});
+    res.status(200).send({metadata: req.metadata, page: req.page});
 });
 
+//Gets all invoices assoicated with an authenticated user by page
+//The pageNumber parameter is an integer of which page you would like to request
+//The resultsPerPage is an integer for how many results you would like per page
 invoiceRouter.get('/pending/:pageNumber/:resultsPerPage', ensureAuthenticated, getPaginatedUserInvoices('pending'), verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
-    res.status(200).send({page: req.page, metadata: req.metadata});
+    res.status(200).send({metadata: req.metadata, page: req.page});
 });
 
+//Gets all invoices assoicated with an authenticated user by page
+//The pageNumber parameter is an integer of which page you would like to request
+//The resultsPerPage is an integer for how many results you would like per page
 invoiceRouter.get('/paid/:pageNumber/:resultsPerPage', ensureAuthenticated, getPaginatedUserInvoices('paid'), verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
-    res.status(200).send({page: req.page, metadata: req.metadata});
+    res.status(200).send({metadata: req.metadata, page: req.page});
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //Gets an invoice associated with an authenticated user by Id
 invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), (req, res, next) => {

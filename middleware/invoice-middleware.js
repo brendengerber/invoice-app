@@ -10,6 +10,7 @@ const _ = require('lodash');
 //Optional argument "status" should be a string of "draft", "pending", or "paid"
 function getUserInvoices(status = undefined){
     return (req, res, next) => {
+        //Creates the proper where clause depending on if a status was provided
         let whereClause;
         if(status){
             whereClause = {
@@ -43,6 +44,7 @@ function getUserInvoices(status = undefined){
 //Optional argument "status" should be a string of "draft", "pending", or "paid"
 function getPaginatedUserInvoices(status = undefined){
     return (req, res, next) => {
+        //Creates the proper where clause depending on if a status was provided
         let whereClause
         if(status){
             whereClause = {
@@ -77,7 +79,7 @@ function getPaginatedUserInvoices(status = undefined){
             next(processQueryError(err));
         });
     }
-}
+};
 
 function getUserInvoiceById(req, res, next){
     db.invoice.findOne({
