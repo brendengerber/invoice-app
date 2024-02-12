@@ -2,7 +2,7 @@
 //Posts should first add the user.id to the object as well as all associations to ensure proper ownership, the addPropertyToDatabaseObject recursive function can be used for this purpose
 
 const db = require('../models/index.js');
-const {unwrapQueryResults, checkForEmptyResults, addPropertyToDatabaseObject, processQueryError} = require('../utilities/database-utilities.js');
+const {unwrapQueryResults, checkForEmptyResults, processQueryError} = require('../utilities/database-utilities.js');
 const _ = require('lodash');
 
 //Gets all user invoices
@@ -103,8 +103,7 @@ function getUserInvoiceById(req, res, next){
 
 function postUserInvoice(req, res, next){
     db.invoice.create(
-        //Adds the user id to the appropriate columns before submitting the query
-        addPropertyToDatabaseObject(req.newInvoice, "userId", req.user.id), {
+        req.newInvoice, {
             include:[{
                 model:  db.invoiceItem
             }]
@@ -123,25 +122,19 @@ function postUserInvoice(req, res, next){
 async function putUserInvoiceById(req, res, next){
     let t;
     try{
-        //Adds id properties to the newInvoice where appropriate in case they do not already exist from the object sent by the front end
-        //Allows invoice objects to be sent from frontend without id properties
-        req.newInvoice.id = req.invoice.id;
-        req.newInvoice = addPropertyToDatabaseObject(req.newInvoice, "userId", req.user.id);
-
         //Creates the new transaction where all queries will be added
         t = await db.sequelize.transaction();
         
         //Query to update the invoice (excluding associations)
-        db.invoice.update(
+        await db.invoice.update(
             //Adds the user id to the appropriate records before submitting the query
             req.newInvoice, {
                 where: {
                     id: req.invoiceId,
                     userId: req.user.id,
-                }
-            }, {transaction: t}).catch(err => {
-                next(processQueryError(err));
-            });
+                },
+                transaction: t
+            })
         
         //Creates a list of invoiceItem ids submitted with the updated invoice that already exist, (i.e. non new/existing invoiceItems)
         const idsToUpdate = req.newInvoice.invoiceItems
@@ -150,36 +143,30 @@ async function putUserInvoiceById(req, res, next){
         //Returns the id for each remaining invoiceItem
         .map(ingredient => ingredient.id)
         //Query to delete any invoiceItems that were present in the original invoice, but not present in the updated invoice
-        db.invoiceItem.destroy({
+        await db.invoiceItem.destroy({
             where: {
                 id: {
                     [db.Sequelize.Op.notIn]: idsToUpdate,
                 },
                 invoiceId: req.invoice.id
-            }
-        }, {transaction: t}).catch(err => {
-            next(processQueryError(err));
-        });
+            },
+            transaction: t
+        })
 
         //Loops over the invoiceItems in the new invoice and adds a query to the transaction to either update or create the record
         for(let invoiceItem of req.newInvoice.invoiceItems){
             
-            //Adds the invoice id in case it does not already exist from the object sent by the frontend
-            invoiceItem.invoiceId = req.invoice.id
-            
             //Updates the invoiceItem if it exists, or creates it if it's new
-            db.invoiceItem.upsert(
+            await db.invoiceItem.upsert(
                 invoiceItem, {
                     where: {
                         invoiceId: req.invoice.id,
                         userId: req.user.id
-                    }
-                }, {transaction: t}
-            ).catch(err => {
-                next(processQueryError(err));
-            });
+                    },
+                    transaction: t
+                }
+            )
         } 
-
         //Commits the transaction's queries
         await t.commit();
         next();
@@ -187,7 +174,10 @@ async function putUserInvoiceById(req, res, next){
     }catch(err){
         //Roles back any queries if the transaction throws an error
         if (t) {
-            t.rollback().then(delete t);
+            await t.rollback().then(delete t)
+            .catch(err => {
+                next(processQueryError(err));
+            });
         }
         next(processQueryError(err));
     }
