@@ -31,6 +31,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 * Success Response Code: 200
 * Success Response: JSON Object
 * Sample Success Response: 
+
 ```
 {
     "id": "ed8fdd40-b807-4e51-b1f5-90fb5b7f6e73",
@@ -398,7 +399,6 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     }
 ]
 ```
-
 
 ### Endpoint: Get Paid Invoices
 * Description: Gets all paid invoices associated with a logged in user.
@@ -851,6 +851,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     ]
 }
 ```
+
 ### Endpoint: Get Paginated Paid Invoices
 * Description: Gets a specified page of invoices associated with a logged in user.
 * Notes: The property "invoice.status" must be set to "paid" to populate.
@@ -966,8 +967,6 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 }
 ```
 
-
-
 ### Endpoint: Get Invoice By Id
 * Description: Gets an invoice associated with a logged in user by id.
 * Path: `/invoices/:id`
@@ -1025,6 +1024,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     ]
 }
 ```
+
 ### Endpoint: Add New Invoice
 * Description: Adds a new invoice associated with a logged in user.
 * Notes: Invoice objects sent to add do not need to include an id properties.
@@ -1034,6 +1034,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 * Response: JSON of the newly created resource including assigned ids
 * Payload: JSON
 * Example Payload:
+
 ```
 {
     "status": null,
@@ -1087,6 +1088,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 * Response: none
 * Payload: JSON
 * Example Payload:
+
 ```
 {
     "status": null,
@@ -1134,6 +1136,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     ]
 }
 ```
+
 ### Endpoint: Delete Invoice By Id
 * Description: Deletes an invoice associated with a logged in user by id.
 * Path: `/invoices/:id`
