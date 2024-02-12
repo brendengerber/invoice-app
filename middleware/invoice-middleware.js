@@ -6,7 +6,7 @@ const {unwrapQueryResults, checkForEmptyResults, addPropertyToDatabaseObject, pr
 const _ = require('lodash');
 
 //Gets all user invoices
-//As function returns the middleware, it must be called by the route (ie. with parenthases at the end)
+//As the function returns a middleware, it must be called by the route even if status is not provided (ie. with parenthases at the end)
 //Optional argument "status" should be a string of "draft", "pending", or "paid"
 function getUserInvoices(status = undefined){
     return (req, res, next) => {
@@ -15,12 +15,11 @@ function getUserInvoices(status = undefined){
             whereClause = {
                 userId: req.user.id,
                 status: status
-            }
+            };
         }else{
-            console.log('all')
             whereClause = {
                 userId: req.user.id,
-            }
+            };
         }
         db.invoice.findAll({
             where: whereClause,
@@ -39,34 +38,46 @@ function getUserInvoices(status = undefined){
     }; 
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//Gets all user invoices by page using req.pageNumber and req.resultsPerPage
+//As the function returns a middleware, it must be called by the route even if status is not provided (ie. with parenthases at the end)
+//Optional argument "status" should be a string of "draft", "pending", or "paid"
+function getPaginatedUserInvoices(status = undefined){
+    return (req, res, next) => {
+        let whereClause
+        if(status){
+            whereClause = {
+                userId: req.user.id,
+                status: status
+            };
+        }else{
+            whereClause = {
+                userId: req.user.id
+            };
+        }
+        db.invoice.findAndCountAll({
+            where: whereClause,
+            include: [{
+                model: db.invoiceItem,
+                separate: true
+            }],
+            limit: req.resultsPerPage,
+            offset: (req.pageNumber - 1) * req.resultsPerPage
+        }).then(results =>  {
+            checkForEmptyResults(results.rows);
+            return results;
+        }).then(results => {
+            req.metadata = {
+                page: req.pageNumber,
+                totalPages: Math.ceil(results.count / req.resultsPerPage),
+                totalInvoices: results.count
+            };
+            req.page = unwrapQueryResults(results.rows);
+            next();
+        }).catch(err => {
+            next(processQueryError(err));
+        });
+    }
+}
 
 function getUserInvoiceById(req, res, next){
     db.invoice.findOne({
@@ -196,6 +207,7 @@ function deleteUserInvoiceById(req, res, next){
 module.exports = {
     getUserInvoices,
     getUserInvoiceById,
+    getPaginatedUserInvoices,
     postUserInvoice,
     deleteUserInvoiceById,
     putUserInvoiceById
