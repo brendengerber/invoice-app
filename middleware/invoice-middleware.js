@@ -1,3 +1,6 @@
+//Note all resources should include user.id in the where statement to help ensure that users can only access resources belonging to them
+//Posts should first add the user.id to the object as well as all associations to ensure proper ownership, the addPropertyToDatabaseObject recursive function can be used for this purpose
+
 const db = require('../models/index.js');
 const {unwrapQueryResults, checkForEmptyResults, addPropertyToDatabaseObject, processQueryError} = require('../utilities/database-utilities.js');
 const _ = require('lodash');
@@ -21,65 +24,29 @@ function getUserInvoices(req, res, next){
     });
 }; 
 
-function getUserDraftInvoices(req, res, next){
-    db.invoice.findAll({
-        where: {
-            userId: req.user.id,
-            status: "draft"
-        },
-        include: [{
-            model: db.invoiceItem,
-        }]
-    }).then(results => {
-        checkForEmptyResults(results);
-        return unwrapQueryResults(results);
-    }).then(results => {
-        req.invoices = results;
-        next();
-    }).catch(err => {
-        next(processQueryError(err));
-    });
-};
-
-function getUserPendingInvoices(req, res, next){
-    db.invoice.findAll({
-        where: {
-            userId: req.user.id,
-            status: "pending"
-        },
-        include: [{
-            model: db.invoiceItem,
-        }]
-    }).then(results => {
-        checkForEmptyResults(results);
-        return unwrapQueryResults(results);
-    }).then(results => {
-        req.invoices = results;
-        next();
-    }).catch(err => {
-        next(processQueryError(err));
-    });
-};
-
-function getUserPaidInvoices(req, res, next){
-    db.invoice.findAll({
-        where: {
-            userId: req.user.id,
-            status: "paid"
-        },
-        include: [{
-            model: db.invoiceItem,
-        }]
-    }).then(results => {
-        checkForEmptyResults(results);
-        return unwrapQueryResults(results);
-    }).then(results => {
-        req.invoices = results;
-        next();
-    }).catch(err => {
-        next(processQueryError(err));
-    });
-};
+//Gets all user invoices by status
+//Status should be a string of "draft", "pending", or "paid"
+function getUserInvoicesByStatus(status){
+    return (req, res, next) => {
+        db.invoice.findAll({
+            where: {
+                userId: req.user.id,
+                status: status
+            },
+            include: [{
+                model: db.invoiceItem,
+            }]
+        }).then(results => {
+            checkForEmptyResults(results);
+            return unwrapQueryResults(results);
+        }).then(results => {
+            req.invoices = results;
+            next();
+        }).catch(err => {
+            next(processQueryError(err));
+        }); 
+    }
+}
 
 function getUserInvoiceById(req, res, next){
     db.invoice.findOne({
@@ -98,7 +65,7 @@ function getUserInvoiceById(req, res, next){
         next();
     }).catch(err => {
         next(processQueryError(err));
-    })
+    });
 };
 
 function postUserInvoice(req, res, next){
@@ -120,9 +87,6 @@ function postUserInvoice(req, res, next){
     });
 };
 
-//***********is this adding invoiceId to invoice? i.e. invoice.invoiceId */
-//***********function is also not currently adding invoice.id from req.invoice.id */
-//*****it does properly add userId to everything though, the others liek invoice.invoiceId don't get added because they are not included in the query, still sloppy tho */
 async function putUserInvoiceById(req, res, next){
     let t;
     try{
@@ -197,7 +161,6 @@ async function putUserInvoiceById(req, res, next){
 };
 
 function deleteUserInvoiceById(req, res, next){
-    console.log(req.invoiceId)
     db.invoice.destroy({
         where: {
             userId: req.user.id,
@@ -206,7 +169,6 @@ function deleteUserInvoiceById(req, res, next){
     }).then(results => {
         next()
     }).catch(err => {
-        console.log(err)
         next(processQueryError(err));
     });
 }
@@ -214,9 +176,11 @@ function deleteUserInvoiceById(req, res, next){
 module.exports = {
     getUserInvoices,
     getUserInvoiceById,
+    getUserInvoicesByStatus,
     getUserDraftInvoices,
     getUserPendingInvoices,
     getUserPaidInvoices,
+    getUserInvoicesByPage,
     postUserInvoice,
     deleteUserInvoiceById,
     putUserInvoiceById

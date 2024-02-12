@@ -2,15 +2,17 @@
 const express = require('express');
 require('dotenv').config();
 const {ensureAuthenticated} = require('../middleware/authentication-middleware.js');
-const {getUserInvoices, getUserInvoiceById, getUserDraftInvoices, getUserPendingInvoices, getUserPaidInvoices, getUserInvoicesByPage, postUserInvoice, deleteUserInvoiceById, putUserInvoiceById} = require('../middleware/invoice-middleware.js');
+const {getUserInvoices, getUserInvoiceById, getUserInvoicesByStatus, getUserInvoicesByPage, postUserInvoice, deleteUserInvoiceById, putUserInvoiceById} = require('../middleware/invoice-middleware.js');
 const {verifyUserAuthorization} = require('../middleware/authorization-middleware.js');
-const {checkParamId, checkReqInvoice} = require('../middleware/checking-middleware.js');
+const {checkParamId, checkParamInteger, checkReqInvoice} = require('../middleware/checking-middleware.js');
 
 //Creates the router
 const invoiceRouter = express.Router();
 
-//Validates and sanitizes all id parameters and attatches them directly to the req object
-invoiceRouter.param('id', checkParamId('invoiceId'));
+//Validates and sanitizes all parameters and attatches them directly to the req object as the specified property
+// invoiceRouter.param('id', checkParamId('invoiceId'));
+invoiceRouter.param('pageNumber', checkParamInteger('pageNumber'));
+invoiceRouter.param('resultsPerPage', checkParamInteger('resultsPerPage'));
 
 //Gets all invoices associated with an authenticated user
 invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
@@ -18,28 +20,65 @@ invoiceRouter.get('/all', ensureAuthenticated, getUserInvoices, verifyUserAuthor
 });
 
 //Gets all paid invoices associated with an authenticated user by Id
-invoiceRouter.get('/draft', ensureAuthenticated, getUserDraftInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+invoiceRouter.get('/draft', ensureAuthenticated, getUserInvoicesByStatus('draft'), verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
 
 //Gets pending invoices associated with an authenticated user by Id
-invoiceRouter.get('/pending', ensureAuthenticated, getUserPendingInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+invoiceRouter.get('/pending', ensureAuthenticated, getUserInvoicesByStatus('pending'), verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
 
 //Gets draft invoices associated with an authenticated user by Id
-invoiceRouter.get('/paid', ensureAuthenticated, getUserPaidInvoices, verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
+invoiceRouter.get('/paid', ensureAuthenticated, getUserInvoicesByStatus('paid'), verifyUserAuthorization(['owner', 'admin'], 'invoices'), (req, res, next) => {
     res.status(200).send(req.invoices);
 });
 
+
+
+
+
+
+
+
+
+
+
+//***********************Need testing
+//Can the last three all use the same middleware taking an extra arg for the where clause? same for the above three?
+//getUserInvoicesByStatus
+
 //Gets all invoices assoicated with an authenticated user by page
-//The page parameter is an integer of which page you would like to request
+//The pageNumber parameter is an integer of which page you would like to request
 //The resultsPerPage is an integer for how many results you would like per page
-//****************how to authorize the nested resource at req.page.data */
-//*******Do I have to add another check in the middleware for if(req['resource'].data){}??? */
-invoiceRouter.get('/all/:page/:resultsPerPage', ensureAuthenticated, getUserInvoicesByPage, verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
+invoiceRouter.get('/all/:pageNumber/:resultsPerPage', ensureAuthenticated, getUserInvoicesByPage, verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
     res.status(200).send({page: req.page, metadata: req.metadata});
 });
+
+invoiceRouter.get('/draft/:pageNumber/:resultsPerPage', ensureAuthenticated, getUserInvoicesByPage, verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
+    res.status(200).send({page: req.page, metadata: req.metadata});
+});
+
+invoiceRouter.get('/pending/:pageNumber/:resultsPerPage', ensureAuthenticated, getUserInvoicesByPage, verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
+    res.status(200).send({page: req.page, metadata: req.metadata});
+});
+
+invoiceRouter.get('/paid/:pageNumber/:resultsPerPage', ensureAuthenticated, getUserInvoicesByPage, verifyUserAuthorization(['owner', 'admin'], 'page'), (req, res, next) => {
+    res.status(200).send({page: req.page, metadata: req.metadata});
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //Gets an invoice associated with an authenticated user by Id
 invoiceRouter.get('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), (req, res, next) => {
