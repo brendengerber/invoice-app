@@ -9,7 +9,7 @@ const ensureAuthenticated = function(req, res, next){
         if(req.isAuthenticated()){
             return next();
         }else{
-            res.redirect(process.env.LOGIN_URL);    
+            res.status(401).send("Please login");    
         }
     }catch(err){
         next(err);
