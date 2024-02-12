@@ -18,6 +18,8 @@
 Location: `https://api.invoice-app.naughty-cat.com`
 Useage: In order to test routes in browser, make sure to visit the authentication [URL](https://api.invoice-app.naughty-cat.com/authentication/github). Once you have authenticated a cookie will be stored in your browser and sent on subsequent requests. If you want to test routes with postman, visit a route in browser click inspect => application => cookies and copy the sid string. Then in postman click headers and add "cookie" as the key and "connect.sid=some-long-string" which you copied in the previous step.
 
+Note: Any rought accessed by an unauthenticated user will return status 401, which can be included in if statement checks on all fetches on the front end. If unauthorized, redirect to the login url. 
+
 ### **1. AUTHENTICATION ENDPOINTS**
 
 ### Endpoint: Github User Authentication
