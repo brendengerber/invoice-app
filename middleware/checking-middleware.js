@@ -30,10 +30,10 @@ const checkParamInteger = (customProperty) => {
 };
 
 //Sanitizes and validates the format of an invoice submitted in the req.body and attatches it to req.newInvoice
-//**************needs checking logic still */
+//Standardizes the invoice object by adding userId and invoiceId recursively where appropriate
 const checkReqInvoice = (req, res, next) => {
     try{
-        req.newInvoice = req.body;
+        req.newInvoice = check.objects.invoice(req.body, {userId: req.user.id, invoiceId: req.invoice.id});
         next();
     }catch(err){
         next(err);
