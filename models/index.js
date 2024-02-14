@@ -35,4 +35,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+//Parses numeric column into numbers instead of strings (note not safe/percise for very long decimals)
+db.Sequelize.postgres.DECIMAL.parse = function (value) { return parseFloat(value); };
+
 module.exports = db;

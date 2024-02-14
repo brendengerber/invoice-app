@@ -5,6 +5,5 @@ const { Sequelize } = require('sequelize');
 //Additional configuration can be done here to specify different databases for development, testing, and production using the NODE_ENV variable if desired
 module.exports = new Sequelize(process.env.DATABASE_URL, {
     logging: false,
-    dialectOptions: { decimalNumbers: true }
 });
 
