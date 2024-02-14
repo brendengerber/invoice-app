@@ -5,6 +5,9 @@ const db = require('../models/index.js');
 const {unwrapQueryResults, checkForEmptyResults, processQueryError} = require('../utilities/database-utilities.js');
 const _ = require('lodash');
 
+const pg = require("pg")
+pg.types.setTypeParser(1700, parseFloat)
+
 //Gets all user invoices
 //As the function returns a middleware, it must be called by the route even if status is not provided (ie. with parenthases at the end)
 //Optional argument "status" should be a string of "draft", "pending", or "paid"
@@ -94,6 +97,7 @@ function getUserInvoiceById(req, res, next){
         checkForEmptyResults(results);
         return unwrapQueryResults(results);
     }).then(results => {
+        console.log('results', typeof results.amountDue)
         req.invoice = results;
         next();
     }).catch(err => {
