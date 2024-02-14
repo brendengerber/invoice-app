@@ -1,3 +1,6 @@
+//Original invoices will be attatched to req.invoice at the beginning of routes to be used for checking ownership as well as adding invoiceId to incoming invoice items
+//New and updated invoices will be validated and attatched to req.newInvoice to be used in queries
+
 //Imports necessary modules
 const express = require('express');
 require('dotenv').config();
@@ -72,11 +75,12 @@ invoiceRouter.post('/', ensureAuthenticated, checkReqInvoice, postUserInvoice, (
     res.status(201).send(req.newInvoice);
 });
 
-//make sure checkReqInvoice is accessing the req.updatedInvoice, somehow attatch req.original invoice?
+//Attatches original invoice first to use for checking ownership and adding invoice id to the incoming update in case it was not included
 invoiceRouter.put('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), checkReqInvoice, putUserInvoiceById, (req, res, next) => {
     res.status(201).send();
 });
 
+//Attatches original invoice first to use for checking ownership
 invoiceRouter.delete('/:id', ensureAuthenticated, getUserInvoiceById, verifyUserAuthorization(['owner', 'admin'], 'invoice'), deleteUserInvoiceById, (req, res, next) => {
     res.status(200).send();
 })
