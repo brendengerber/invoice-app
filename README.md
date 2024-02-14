@@ -77,110 +77,80 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 
 ### **3. INVOICE ENDPOINTS**
 
+### Standard Invoice Object:
+```
+{
+    "id": UUID,
+    "userId": UUID,
+    "status": string,
+    "invoiceNumber": number,
+    "billFromStreetAddress": string,
+    "billFromCity": string,
+    "billFromPostalCode": string,
+    "billFromCountry": string,
+    "billToName": string,
+    "billToEmail": string,
+    "billToStreetAddress": string,
+    "billToCity": string,
+    "billToPostalCode": string,
+    "billToCountry": string,
+    "date": string,
+    "paymentTerms": string,
+    "projectDescription": string,
+    "amountDue": number (xxx.xx),
+    "createdAt": string ("YYYY-MM-DD"),
+    "UpdatedAt": string ("YYYY-MM-DD"),
+    "updatedAt": string ("YYYY-MM-DD"),
+    "invoiceItems": [
+        {
+            "id": UUID,
+            "invoiceId": UUID,
+            "userId": UUID,
+            "name": string,
+            "quantity": number,
+            "price": number (xxx.xx),
+            "total": number (xxx.xx),
+            "createdAt": string ("YYYY-MM-DD"),
+            "updatedAt": string ("YYYY-MM-DD")
+        },
+        {
+            "id": UUID,
+            "invoiceId": UUID,
+            "userId": UUID,
+            "name": string,
+            "quantity": number,
+            "price": number (xxx.xx),
+            "total": number (xxx.xx),
+            "createdAt": string ("YYYY-MM-DD"),
+            "updatedAt": string ("YYYY-MM-DD")
+        }
+    ]
+}
+```
+
+### Endpoint: Get Invoice By Id
+* Description: Gets an invoice associated with a logged in user by id.
+* Path: `/invoices/:id`
+* Method: GET
+* Response Success Code: 200
+* Response: JSON Object
+* Sample Response: 
+```
+invoiceObject
+```
+
 ### Endpoint: Get All Invoices
 * Description: Gets all invoices associated with a logged in user.
 * Path: `/invoices/all`
 * Method: GET
 * Response Success Code: 200
 * Response: JSON Object
-* Sample Response:
-
+* Sample Response: 
 ```
 [
-    {
-        "id": null,
-        "userId": null,
-        "status": null,
-        "invoiceNumber": null,
-        "billFromStreetAddress": null,
-        "billFromCity": null,
-        "billFromPostalCode": null,
-        "billFromCountry": null,
-        "billToName": null,
-        "billToEmail": null,
-        "billToStreetAddress": null,
-        "billToCity": null,
-        "billToPostalCode": null,
-        "billToCountry": null,
-        "date": null,
-        "paymentTerms": null,
-        "projectDescription": null,
-        "amountDue": null,
-        "createdAt": "YYYY-MM-DD",
-        "UpdatedAt": "YYYY-MM-DD",
-        "updatedAt": "YYYY-MM-DD",
-        "invoiceItems": [
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            },
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            }
-        ]
-    },
-    {
-        "id": null,
-        "userId": null,
-        "status": null,
-        "invoiceNumber": null,
-        "billFromStreetAddress": null,
-        "billFromCity": null,
-        "billFromPostalCode": null,
-        "billFromCountry": null,
-        "billToName": null,
-        "billToEmail": null,
-        "billToStreetAddress": null,
-        "billToCity": null,
-        "billToPostalCode": null,
-        "billToCountry": null,
-        "date": null,
-        "paymentTerms": null,
-        "projectDescription": null,
-        "amountDue": null,
-        "createdAt": "YYYY-MM-DD",
-        "UpdatedAt": "YYYY-MM-DD",
-        "updatedAt": "YYYY-MM-DD",
-        "invoiceItems": [
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            },
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            }
-        ]
-    }
+    invoiceObject,
+    invoiceObject,
+    invoiceObject
 ]
 ```
 
@@ -191,104 +161,12 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 * Method: GET
 * Response Success Code: 200
 * Response: JSON Object
-* Sample Response:
-
+* Sample Response: 
 ```
 [
-    {
-        "id": null,
-        "userId": null,
-        "status": "draft",
-        "invoiceNumber": null,
-        "billFromStreetAddress": null,
-        "billFromCity": null,
-        "billFromPostalCode": null,
-        "billFromCountry": null,
-        "billToName": null,
-        "billToEmail": null,
-        "billToStreetAddress": null,
-        "billToCity": null,
-        "billToPostalCode": null,
-        "billToCountry": null,
-        "date": null,
-        "paymentTerms": null,
-        "projectDescription": null,
-        "amountDue": null,
-        "createdAt": "YYYY-MM-DD",
-        "UpdatedAt": "YYYY-MM-DD",
-        "updatedAt": "YYYY-MM-DD",
-        "invoiceItems": [
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            },
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            }
-        ]
-    },
-    {
-        "id": null,
-        "userId": null,
-        "status": "draft",
-        "invoiceNumber": null,
-        "billFromStreetAddress": null,
-        "billFromCity": null,
-        "billFromPostalCode": null,
-        "billFromCountry": null,
-        "billToName": null,
-        "billToEmail": null,
-        "billToStreetAddress": null,
-        "billToCity": null,
-        "billToPostalCode": null,
-        "billToCountry": null,
-        "date": null,
-        "paymentTerms": null,
-        "projectDescription": null,
-        "amountDue": null,
-        "createdAt": "YYYY-MM-DD",
-        "UpdatedAt": "YYYY-MM-DD",
-        "updatedAt": "YYYY-MM-DD",
-        "invoiceItems": [
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            },
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            }
-        ]
-    }
+    invoiceObject,
+    invoiceObject,
+    invoiceObject
 ]
 ```
 
@@ -299,104 +177,12 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 * Method: GET
 * Response Success Code: 200
 * Response: JSON Object
-* Sample Response:
-
+* Sample Response: 
 ```
 [
-    {
-        "id": null,
-        "userId": null,
-        "status": pending,
-        "invoiceNumber": null,
-        "billFromStreetAddress": null,
-        "billFromCity": null,
-        "billFromPostalCode": null,
-        "billFromCountry": null,
-        "billToName": null,
-        "billToEmail": null,
-        "billToStreetAddress": null,
-        "billToCity": null,
-        "billToPostalCode": null,
-        "billToCountry": null,
-        "date": null,
-        "paymentTerms": null,
-        "projectDescription": null,
-        "amountDue": null,
-        "createdAt": "YYYY-MM-DD",
-        "UpdatedAt": "YYYY-MM-DD",
-        "updatedAt": "YYYY-MM-DD",
-        "invoiceItems": [
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            },
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            }
-        ]
-    },
-    {
-        "id": null,
-        "userId": null,
-        "status": pending,
-        "invoiceNumber": null,
-        "billFromStreetAddress": null,
-        "billFromCity": null,
-        "billFromPostalCode": null,
-        "billFromCountry": null,
-        "billToName": null,
-        "billToEmail": null,
-        "billToStreetAddress": null,
-        "billToCity": null,
-        "billToPostalCode": null,
-        "billToCountry": null,
-        "date": null,
-        "paymentTerms": null,
-        "projectDescription": null,
-        "amountDue": null,
-        "createdAt": "YYYY-MM-DD",
-        "UpdatedAt": "YYYY-MM-DD",
-        "updatedAt": "YYYY-MM-DD",
-        "invoiceItems": [
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            },
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            }
-        ]
-    }
+    invoiceObject,
+    invoiceObject,
+    invoiceObject
 ]
 ```
 
@@ -407,104 +193,12 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 * Method: GET
 * Response Success Code: 200
 * Response: JSON Object
-* Sample Response:
-
+* Sample Response: 
 ```
 [
-    {
-        "id": null,
-        "userId": null,
-        "status": paid,
-        "invoiceNumber": null,
-        "billFromStreetAddress": null,
-        "billFromCity": null,
-        "billFromPostalCode": null,
-        "billFromCountry": null,
-        "billToName": null,
-        "billToEmail": null,
-        "billToStreetAddress": null,
-        "billToCity": null,
-        "billToPostalCode": null,
-        "billToCountry": null,
-        "date": null,
-        "paymentTerms": null,
-        "projectDescription": null,
-        "amountDue": null,
-        "createdAt": "YYYY-MM-DD",
-        "UpdatedAt": "YYYY-MM-DD",
-        "updatedAt": "YYYY-MM-DD",
-        "invoiceItems": [
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            },
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            }
-        ]
-    },
-    {
-        "id": null,
-        "userId": null,
-        "status": paid,
-        "invoiceNumber": null,
-        "billFromStreetAddress": null,
-        "billFromCity": null,
-        "billFromPostalCode": null,
-        "billFromCountry": null,
-        "billToName": null,
-        "billToEmail": null,
-        "billToStreetAddress": null,
-        "billToCity": null,
-        "billToPostalCode": null,
-        "billToCountry": null,
-        "date": null,
-        "paymentTerms": null,
-        "projectDescription": null,
-        "amountDue": null,
-        "createdAt": "YYYY-MM-DD",
-        "UpdatedAt": "YYYY-MM-DD",
-        "updatedAt": "YYYY-MM-DD",
-        "invoiceItems": [
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            },
-            {
-                "id": null,
-                "invoiceId": null,
-                "userId": null,
-                "name": null,
-                "quantity": null,
-                "price": null,
-                "total": null,
-                "createdAt": "YYYY-MM-DD",
-                "updatedAt": "YYYY-MM-DD"
-            }
-        ]
-    }
+    invoiceObject,
+    invoiceObject,
+    invoiceObject
 ]
 ```
 
@@ -524,100 +218,9 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
         "totalInvoices": 3
     },
     page:[
-        {
-            "id": null,
-            "userId": null,
-            "status": paid,
-            "invoiceNumber": null,
-            "billFromStreetAddress": null,
-            "billFromCity": null,
-            "billFromPostalCode": null,
-            "billFromCountry": null,
-            "billToName": null,
-            "billToEmail": null,
-            "billToStreetAddress": null,
-            "billToCity": null,
-            "billToPostalCode": null,
-            "billToCountry": null,
-            "date": null,
-            "paymentTerms": null,
-            "projectDescription": null,
-            "amountDue": null,
-            "createdAt": "YYYY-MM-DD",
-            "UpdatedAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD",
-            "invoiceItems": [
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                },
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                }
-            ]
-        },
-        {
-            "id": null,
-            "userId": null,
-            "status": paid,
-            "invoiceNumber": null,
-            "billFromStreetAddress": null,
-            "billFromCity": null,
-            "billFromPostalCode": null,
-            "billFromCountry": null,
-            "billToName": null,
-            "billToEmail": null,
-            "billToStreetAddress": null,
-            "billToCity": null,
-            "billToPostalCode": null,
-            "billToCountry": null,
-            "date": null,
-            "paymentTerms": null,
-            "projectDescription": null,
-            "amountDue": null,
-            "createdAt": "YYYY-MM-DD",
-            "UpdatedAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD",
-            "invoiceItems": [
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                },
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                }
-            ]
-        }
+        invoiceObject,
+        invoiceObject,
+        invoiceObject,
     ]
 }
 ```
@@ -639,100 +242,9 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
         "totalInvoices": 3
     },
     page:[
-        {
-            "id": null,
-            "userId": null,
-            "status": draft,
-            "invoiceNumber": null,
-            "billFromStreetAddress": null,
-            "billFromCity": null,
-            "billFromPostalCode": null,
-            "billFromCountry": null,
-            "billToName": null,
-            "billToEmail": null,
-            "billToStreetAddress": null,
-            "billToCity": null,
-            "billToPostalCode": null,
-            "billToCountry": null,
-            "date": null,
-            "paymentTerms": null,
-            "projectDescription": null,
-            "amountDue": null,
-            "createdAt": "YYYY-MM-DD",
-            "UpdatedAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD",
-            "invoiceItems": [
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                },
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                }
-            ]
-        },
-        {
-            "id": null,
-            "userId": null,
-            "status": draft,
-            "invoiceNumber": null,
-            "billFromStreetAddress": null,
-            "billFromCity": null,
-            "billFromPostalCode": null,
-            "billFromCountry": null,
-            "billToName": null,
-            "billToEmail": null,
-            "billToStreetAddress": null,
-            "billToCity": null,
-            "billToPostalCode": null,
-            "billToCountry": null,
-            "date": null,
-            "paymentTerms": null,
-            "projectDescription": null,
-            "amountDue": null,
-            "createdAt": "YYYY-MM-DD",
-            "UpdatedAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD",
-            "invoiceItems": [
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                },
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                }
-            ]
-        }
+        invoiceObject,
+        invoiceObject,
+        invoiceObject,
     ]
 }
 ```
@@ -746,6 +258,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 * Response: JSON Object
 * Sample Response:
 
+* Sample Response:
+
 ```
 {
      "metadata": {
@@ -754,100 +268,9 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
         "totalInvoices": 3
     },
     page:[
-        {
-            "id": null,
-            "userId": null,
-            "status": pending,
-            "invoiceNumber": null,
-            "billFromStreetAddress": null,
-            "billFromCity": null,
-            "billFromPostalCode": null,
-            "billFromCountry": null,
-            "billToName": null,
-            "billToEmail": null,
-            "billToStreetAddress": null,
-            "billToCity": null,
-            "billToPostalCode": null,
-            "billToCountry": null,
-            "date": null,
-            "paymentTerms": null,
-            "projectDescription": null,
-            "amountDue": null,
-            "createdAt": "YYYY-MM-DD",
-            "UpdatedAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD",
-            "invoiceItems": [
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                },
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                }
-            ]
-        },
-        {
-            "id": null,
-            "userId": null,
-            "status": pending,
-            "invoiceNumber": null,
-            "billFromStreetAddress": null,
-            "billFromCity": null,
-            "billFromPostalCode": null,
-            "billFromCountry": null,
-            "billToName": null,
-            "billToEmail": null,
-            "billToStreetAddress": null,
-            "billToCity": null,
-            "billToPostalCode": null,
-            "billToCountry": null,
-            "date": null,
-            "paymentTerms": null,
-            "projectDescription": null,
-            "amountDue": null,
-            "createdAt": "YYYY-MM-DD",
-            "UpdatedAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD",
-            "invoiceItems": [
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                },
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                }
-            ]
-        }
+        invoiceObject,
+        invoiceObject,
+        invoiceObject,
     ]
 }
 ```
@@ -869,158 +292,9 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
         "totalInvoices": 3
     },
     page:[
-        {
-            "id": null,
-            "userId": null,
-            "status": paid,
-            "invoiceNumber": null,
-            "billFromStreetAddress": null,
-            "billFromCity": null,
-            "billFromPostalCode": null,
-            "billFromCountry": null,
-            "billToName": null,
-            "billToEmail": null,
-            "billToStreetAddress": null,
-            "billToCity": null,
-            "billToPostalCode": null,
-            "billToCountry": null,
-            "date": null,
-            "paymentTerms": null,
-            "projectDescription": null,
-            "amountDue": null,
-            "createdAt": "YYYY-MM-DD",
-            "UpdatedAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD",
-            "invoiceItems": [
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                },
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                }
-            ]
-        },
-        {
-            "id": null,
-            "userId": null,
-            "status": paid,
-            "invoiceNumber": null,
-            "billFromStreetAddress": null,
-            "billFromCity": null,
-            "billFromPostalCode": null,
-            "billFromCountry": null,
-            "billToName": null,
-            "billToEmail": null,
-            "billToStreetAddress": null,
-            "billToCity": null,
-            "billToPostalCode": null,
-            "billToCountry": null,
-            "date": null,
-            "paymentTerms": null,
-            "projectDescription": null,
-            "amountDue": null,
-            "createdAt": "YYYY-MM-DD",
-            "UpdatedAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD",
-            "invoiceItems": [
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                },
-                {
-                    "id": null,
-                    "invoiceId": null,
-                    "userId": null,
-                    "name": null,
-                    "quantity": null,
-                    "price": null,
-                    "total": null,
-                    "createdAt": "YYYY-MM-DD",
-                    "updatedAt": "YYYY-MM-DD"
-                }
-            ]
-        }
-    ]
-}
-```
-
-### Endpoint: Get Invoice By Id
-* Description: Gets an invoice associated with a logged in user by id.
-* Path: `/invoices/:id`
-* Method: GET
-* Response Success Code: 200
-* Response: JSON Object
-* Sample Response:
-
-```
-{
-    "id": null,
-    "userId": null,
-    "status": null,
-    "invoiceNumber": null,
-    "billFromStreetAddress": null,
-    "billFromCity": null,
-    "billFromPostalCode": null,
-    "billFromCountry": null,
-    "billToName": null,
-    "billToEmail": null,
-    "billToStreetAddress": null,
-    "billToCity": null,
-    "billToPostalCode": null,
-    "billToCountry": null,
-    "date": null,
-    "paymentTerms": null,
-    "projectDescription": null,
-    "amountDue": null,
-    "createdAt": "YYYY-MM-DD",
-    "UpdatedAt": "YYYY-MM-DD",
-    "updatedAt": "YYYY-MM-DD",
-    "invoiceItems": [
-        {
-            "id": null,
-            "invoiceId": null,
-            "userId": null,
-            "name": null,
-            "quantity": null,
-            "price": null,
-            "total": null,
-            "createdAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD"
-        },
-        {
-            "id": null,
-            "invoiceId": null,
-            "userId": null,
-            "name": null,
-            "quantity": null,
-            "price": null,
-            "total": null,
-            "createdAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD"
-        }
+        invoiceObject,
+        invoiceObject,
+        invoiceObject,
     ]
 }
 ```
@@ -1058,7 +332,6 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     "updatedAt": "YYYY-MM-DD",
     "invoiceItems": [
         {
-            "id": null,
             "name": null,
             "quantity": null,
             "price": null,
@@ -1067,7 +340,6 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
             "updatedAt": "YYYY-MM-DD"
         },
         {
-            "id": null,
             "name": null,
             "quantity": null,
             "price": null,
@@ -1091,6 +363,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 
 ```
 {
+    "id": UUID (optional),
+    "userId": UUID (optional),
     "status": null,
     "invoiceNumber": null,
     "billFromStreetAddress": null,
@@ -1112,9 +386,9 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     "updatedAt": "YYYY-MM-DD",
     "invoiceItems": [
         {
-            "id": null,
-            "invoiceId": null,
-            "userId": null,
+            "id": (required if existing),
+            "invoiceId": null (optional),
+            "userId": null (optional),
             "name": null,
             "quantity": null,
             "price": null,
@@ -1123,9 +397,9 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
             "updatedAt": "YYYY-MM-DD"
         },
         {
-            "id": null,
-            "invoiceId": null,
-            "userId": null,
+            "id": (required if existing),
+            "invoiceId": (optional),
+            "userId": (optional),
             "name": null,
             "quantity": null,
             "price": null,
