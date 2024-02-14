@@ -8,9 +8,6 @@ module.exports = (sequelize, Sequelize, DataType) => {
         },
         userId: {
          type: DataType.UUID,
-         // validate: {
-         //    allowNull: false
-         // }
         },
         status: {
          type: DataType.STRING(15)
@@ -25,7 +22,7 @@ module.exports = (sequelize, Sequelize, DataType) => {
          type: DataType.STRING(150)
         },
         billFromPostalCode: {
-         type: DataType.INTEGER
+         type: DataType.STRING(15)
         },
         billFromCountry: {
          type: DataType.STRING(150)
@@ -43,7 +40,7 @@ module.exports = (sequelize, Sequelize, DataType) => {
          type: DataType.STRING(150)
         },
         billToPostalCode: {
-         type: DataType.INTEGER
+         type: DataType.STRING(15)
         },
         billToCountry: {
          type: DataType.STRING(150)

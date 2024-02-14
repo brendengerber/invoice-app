@@ -8,15 +8,9 @@ module.exports = (sequelize, Sequelize, DataType) => {
         },
         invoiceId: {
          type: DataType.UUID,
-         // validate: {
-         //    allowNull: false
-         // }
         },
         userId: {
          type: DataType.UUID,
-         // validate: {
-         //    allowNull: false
-         // }
         },
         name: {
          type: DataType.STRING(150)
