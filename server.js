@@ -6,6 +6,7 @@ const cors = require('cors');
 require('dotenv').config();
 const session = require('express-session');
 var SequelizeStore = require("connect-session-sequelize")(session.Store);
+const { xss } = require('express-xss-sanitizer');
 
 const passport = require('./config/passport.js');
 const db = require('./models/index.js')
@@ -27,6 +28,11 @@ app.disable('x-powered-by');
 
 //Parses request bodies to json
 app.use(express.json());
+//Parses request urlencoded data to json
+app.use(express.urlencoded({extended: true}));
+
+//Sanitizes entire req object to prevent xss
+app.use(xss());
 
 //**********Can all session logic be moved to a config file and exported? try after this is working */
 //Configures the session store
