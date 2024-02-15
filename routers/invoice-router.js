@@ -1,5 +1,20 @@
-//Original invoices will be attatched to req.invoice at the beginning of routes to be used for checking ownership as well as adding invoiceId to incoming invoice items
-//New and updated invoices will be validated and attatched to req.newInvoice to be used in queries
+//Route functionality is kept here in seperate middleware functions to maintain separation of concerns and allow for re-use in multiple routes
+//Middleware functions are in charge of calling the correct services with the correct arguments, attatching results to the req object, and handling any errors before passing them up to the error handling middleware with next(err)
+
+//Validation functions will add validated req bodies and parameters as custom properties to the req object
+//This will allow for consistency and for middleware down the chain to use the data knowing it is clean and properly formatted
+//Original invoices will be attatched to req.invoice at the beginning of routes to be used for checking ownership as well as adding invoiceId to invoice items sent for updating
+//Params will be attatched to the req object as their corresponding property
+//Existing invoices will be attatched to req.invoice
+//New and updated invoices will be validated and attatched to req.newInvoice
+//Any bodies or params that have hence been attatched directly to the req with a custom propertry can be considered validated, sanatized, and safe to use
+
+//Middleware flow should be as follows: 
+//Ensure authentication 
+//Validate user input (and attatch req bodies and params to the proper req properties)
+//Retreive resource (this will be used to confirm ownership/authorization, so should be done even on delete routes)
+//Verify authorization
+//Complete database action
 
 //Imports necessary modules
 const express = require('express');

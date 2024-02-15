@@ -1,12 +1,12 @@
-//Note all resources should include user.id in the where statement to help ensure that users can only access resources belonging to them
-//Posts should first add the user.id to the object as well as all associations to ensure proper ownership, the addPropertyToDatabaseObject recursive function can be used for this purpose
+//Route functionality is kept here in seperate middleware functions to maintain separation of concerns and allow for re-use in multiple routes
+//Middleware functions are in charge of calling the correct services with the correct arguments, attatching results to the req object, and handling any errors before passing them up to the error handling middleware with next(err)
+
+//Note, all queries should include a where clause with user.id where appropriate as a percaution to avoid serving content that does not belong to the currently logged in user
+//If groups are implemented the the groupId should be included
 
 const db = require('../models/index.js');
 const {unwrapQueryResults, checkForEmptyResults, processQueryError} = require('../utilities/database-utilities.js');
 const _ = require('lodash');
-
-const pg = require("pg")
-pg.types.setTypeParser(1700, parseFloat)
 
 //Gets all user invoices
 //As the function returns a middleware, it must be called by the route even if status is not provided (ie. with parenthases at the end)

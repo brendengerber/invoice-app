@@ -20,31 +20,29 @@ const PORT = process.env.PORT || 3000;
 //Adds helpful logs when server is set to development
 if(process.env.NODE_ENV === "development"){
   app.use(morgan('tiny'));
-}
-
-//Security measures
-app.use(helmet());
-app.disable('x-powered-by');
+};
 
 //Parses request bodies to json
 app.use(express.json());
 //Parses request urlencoded data to json
 app.use(express.urlencoded({extended: true}));
 
-//Sanitizes entire req object to prevent xss
+//Security measures
+app.use(helmet());
+app.disable('x-powered-by');
 app.use(xss());
 
-//**********Can all session logic be moved to a config file and exported? try after this is working */
 //Configures the session store
 var sessionStore = new SequelizeStore({
   db: db.sequelize
-})
+});
 
 //Creates the session store in the database if it doesn't exist, uncomment for first run on a fresh db
 // sessionStore.sync();
 
 //Sets up Express session to be used on all routes
 //***********Add secure when https is set up and samesite? */
+//**********Can all session logic be moved to a config file and exported? try after this is working */
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET,
@@ -59,12 +57,6 @@ app.use(
 //Initializes passport to be used on all routes
 app.use(passport.initialize());
 app.use(passport.session());
-
-//Allows images from github to load
-app.use(function(req, res, next) {
-  res.setHeader("Content-Security-Policy", "img-src self https://avatars.githubusercontent.com");
-  return next();
-});
 
 //Mounts the api router
 const apiRouter = require('./api-router.js');

@@ -6,7 +6,7 @@ require('dotenv').config();
 const userRouter = express.Router();
 
 userRouter.get('/', (req, res, next) => {
-    res.status(200).send(req.user)
+    res.status(200).send(req.user);
 });
 
 module.exports = userRouter;

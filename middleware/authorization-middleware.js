@@ -1,3 +1,6 @@
+//Route functionality is kept here in seperate middleware functions to maintain separation of concerns and allow for re-use in multiple routes
+//Middleware functions are in charge of calling the correct services with the correct arguments, attatching results to the req object, and handling any errors before passing them up to the error handling middleware with next(err)
+
 //This function can be used to assign the roles that are allowed to access a route, and check if req.user has any of those roles
 //Roles is an array of roles allowed to access the resource on a specific route (admin, group memeber, owner)
 //Resource is a string for the req property for the resources that will be checked
