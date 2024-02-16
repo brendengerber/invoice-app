@@ -1,7 +1,7 @@
 //Route functionality is kept here in seperate middleware functions to maintain separation of concerns and allow for re-use in multiple routes
 //Middleware functions are in charge of calling the correct services with the correct arguments, attatching results to the req object, and handling any errors before passing them up to the error handling middleware with next(err)
 
-//Note all resources belonging to a user (have a userId) should be first level properties to allow authorization middleware to check properly
+//Note all resources/results belonging to a user (have a userId) should be first level properties to allow authorization middleware to check properly
 //For example when retreiving a page of results, the array should be attatched to req.page with meta data at req.metadata (and combined at time of sending), instead of req.page.invoices and req.page.metadata
 
 //Note, all queries should include a where clause with user.id where appropriate as a percaution to avoid serving content that does not belong to the currently logged in user
