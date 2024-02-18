@@ -228,19 +228,18 @@ const check = {
         //First argument is an invoice object to validate (likely user submitted)
         //Second argument is an optional id object of ids to add recursively to the invoice and invoiceItems objects to standardize them {userId: someUUID, invoiceId: someUUID}
         //Can be used to validate existing invoices with assigned UUIDs or new invoices awaiting assignment
-        //If the invoice does not yet have a UUID the id property will be set to undefined 
+        //If the invoice does not yet have a UUID the id property will be set to undefined, and if one was provided it will throw an error (to ensure all UUIDs are assigned by the database server)
         invoice: function(invoice, ids){
             //Adds invoice id and userId recursively where appropriate in case they do not already exist from the object sent by the frontend
             //Allows invoice objects to be sent from frontend without id properties
+            //Overrides any existing ids in the invoice object with the provided ids (likely from parameters etc) to prevent id mismatches or user assigned uuids submitted in req bodies
             if(ids.userId){
                 addPropertyToObject(invoice, "userId", ids.userId);
-            }
-            if(ids.invoiceId){
-                invoice.id = ids.invoiceId;
-                if(invoice.invoiceItems){
-                    for(let invoiceItem of invoice.invoiceItems){
-                        invoiceItem.invoiceId = ids.invoiceId;
-                    }
+            } 
+            invoice.id = ids.invoiceId;
+            if(invoice.invoiceItems){
+                for(let invoiceItem of invoice.invoiceItems){
+                    invoiceItem.invoiceId = ids.invoiceId;
                 }
             }
             //Validate's the invoice object's properties
@@ -252,6 +251,7 @@ const check = {
             }catch(err){
                 validationErrors.push(err.message);
             }
+
             try{
                 invoice.userId = check.data.id(invoice.userId);
             }catch(err){

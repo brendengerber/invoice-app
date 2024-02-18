@@ -39,7 +39,7 @@ const checkParamInteger = (customProperty) => {
 //Standardizes the invoice object by adding userId and invoiceId recursively where appropriate
 const checkReqInvoice = (req, res, next) => {
     try{
-        req.newInvoice = check.objects.invoice(req.body, {userId: req.user.id, invoiceId: req.invoice.id});
+        req.newInvoice = check.objects.invoice(req.body, {userId: req.user.id, invoiceId: req.invoice?.id});
         next();
     }catch(err){
         next(err);
