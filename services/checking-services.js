@@ -6,7 +6,7 @@
 const validator = require('validator');
 const Schema = require('validate');
 require('dotenv').config();
-const {addPropertyToObject} = require('../utilities/checking-utilities.js');
+const {addPropertyToObjectRecursively} = require('../utilities/checking-utilities.js');
 
 //Schemas used to validate standard objects
 schemas = {
@@ -222,7 +222,9 @@ const check = {
         },
     },
     //Methods that validate an entire standard object consisting of individual pieces of data
-    //Uses the validation methods above to validate and sanitize all entries 
+    //Uses the validation methods above to validate and sanitize all entries
+    //All object validation take an object containing ids as a second argument, which will be used to override an ids present in the unvalidated object 
+    //This prevents id mismatches (often from an id submitted as a param differeing from the id present in the improperly formatted req.body), and ensures all UUIDs are assigned by the server (often by overriding ids submitted in the req.body to undefined if no id included in the argument, i.e. because the resource does not yet exist)
     objects: {
         //Validates an invoice object
         //First argument is an invoice object to validate (likely user submitted)
@@ -232,11 +234,11 @@ const check = {
         invoice: function(invoice, ids){
             //Adds invoice id and userId recursively where appropriate in case they do not already exist from the object sent by the frontend
             //Allows invoice objects to be sent from frontend without id properties
-            //Overrides any existing ids in the invoice object with the provided ids (likely from parameters etc) to prevent id mismatches or user assigned uuids submitted in req bodies
-            if(ids.userId){
-                addPropertyToObject(invoice, "userId", ids.userId);
-            } 
+            //Overrides any existing ids in the invoice object with the provided ids (likely from parameters etc) to prevent id mismatches or user assigned uuids submitted in req bodies (ensuring all UUIDs are assigned by the server)
             invoice.id = ids.invoiceId;
+            if(ids.userId){
+                addPropertyToObjectRecursively(invoice, "userId", ids.userId);
+            } 
             if(invoice.invoiceItems){
                 for(let invoiceItem of invoice.invoiceItems){
                     invoiceItem.invoiceId = ids.invoiceId;
