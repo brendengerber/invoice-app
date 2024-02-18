@@ -173,7 +173,7 @@ const check = {
         string: function(string){
             if(string){
                 if(typeof string !== 'string'){
-                    throw new Error(`The string ${string} is not of type string.`);
+                    throw new Error(`Error: the string ${string} is not of type string.`);
                 }else{
                     return validator.escape(string);
                 }
@@ -191,7 +191,7 @@ const check = {
                 integer = integer.toString();
                 integer = validator.escape(integer);
                 if(!validator.isInt(integer)){
-                    throw new Error(`The integer ${integer} is not of type integer.`);
+                    throw new Error(`Error: the integer ${integer} is not of type integer.`);
                 }else{
                     //Converts integer back to a type number
                     return Number(integer);
@@ -223,18 +223,17 @@ const check = {
     },
     //Methods that validate an entire standard object consisting of individual pieces of data
     //Uses the validation methods above to validate and sanitize all entries
-    //All object validation take an object containing ids as a second argument, which will be used to override an ids present in the unvalidated object 
+    //All object validation take an object containing ids as a second argument, which will be used to override any ids present in the unvalidated object and standardize the objects by adding the ids recursively where appropriate
+    //This allows bodies to be sent from the frontend without id properties in the body
     //This prevents id mismatches (often from an id submitted as a param differeing from the id present in the improperly formatted req.body), and ensures all UUIDs are assigned by the server (often by overriding ids submitted in the req.body to undefined if no id included in the argument, i.e. because the resource does not yet exist)
     objects: {
         //Validates an invoice object
         //First argument is an invoice object to validate (likely user submitted)
         //Second argument is an optional id object of ids to add recursively to the invoice and invoiceItems objects to standardize them {userId: someUUID, invoiceId: someUUID}
         //Can be used to validate existing invoices with assigned UUIDs or new invoices awaiting assignment
-        //If the invoice does not yet have a UUID the id property will be set to undefined, and if one was provided it will throw an error (to ensure all UUIDs are assigned by the database server)
+        //If the invoice does not yet have a UUID the id property will be set to undefined, and if one was provided it will be overridden
         invoice: function(invoice, ids){
-            //Adds invoice id and userId recursively where appropriate in case they do not already exist from the object sent by the frontend
-            //Allows invoice objects to be sent from frontend without id properties
-            //Overrides any existing ids in the invoice object with the provided ids (likely from parameters etc) to prevent id mismatches or user assigned uuids submitted in req bodies (ensuring all UUIDs are assigned by the server)
+            //Adds invoice id and userId recursively where appropriate in case they do not already exist or are incorrect in the object sent by the frontend
             invoice.id = ids.invoiceId;
             if(ids.userId){
                 addPropertyToObjectRecursively(invoice, "userId", ids.userId);
