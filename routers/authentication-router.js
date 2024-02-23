@@ -23,8 +23,15 @@ authRouter.get('/failure', (req, res, next) => {
 });
 
 authRouter.get('/success', (req, res, next) => {
+    console.log(req.test)
     res.status(200).send(req.user);
 });
+
+authRouter.get('github/test', (req, res, next)=> {
+    req.test = 'test'
+    next();
+    }, 
+    passport.authenticate('github', {scope: ['user']}))
 
 //Logs out of any open passport session
 authRouter.post('/logout', (req, res, next) => {
