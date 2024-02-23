@@ -9,13 +9,28 @@ const authRouter = express.Router();
 //Authenticates via github oauth
 authRouter.get('/github', passport.authenticate('github', {scope: ['user']}));
 
+function addTestReq (req, res, next){
+    req.test = 'this is a test, req handded through ';
+    next();
+}
+
 //Callback route which Github will call following the authentication attempt
 //User will be redirected based on the success of the authentication attempt
 //*******If this doesnt work with frontend, might need to change redirects to a call back that sends that stuff? */
-authRouter.get('/github/callback', passport.authenticate('github', {
+authRouter.get('/github/callback', addTestReq, passport.authenticate('github', {
     failureRedirect: `/authentication/failure`,
     successRedirect: `/authentication/success`
 }));
+
+//Redirects callback redirects from Oauth to the front end pages not hosted on the api subdomain
+authRouter.get('/failure', (req, res, next) => {
+    res.status(401).send();
+});
+
+authRouter.get('/success', (req, res, next) => {
+    console.log(req.test)
+    res.status(200).send(req.test, 'test');
+});
 
 // //*****If this works add the frontend base url to .env.example and dokku config files and refactor below to use it */
 // if(process.env.NODE_ENV === 'production'){
@@ -29,23 +44,6 @@ authRouter.get('/github/callback', passport.authenticate('github', {
 //         successRedirect: `localhost:3000/home`
 //     }));
 // }
-
-
-//Redirects callback redirects from Oauth to the front end pages not hosted on the api subdomain
-authRouter.get('/failure', (req, res, next) => {
-    res.status(401).send();
-});
-
-authRouter.get('/success', (req, res, next) => {
-    console.log(req.test)
-    res.status(200).send(req.test);
-});
-
-authRouter.get('github/test', (req, res, next)=> {
-    req.test = 'test'
-    next();
-    }, 
-    passport.authenticate('github', {scope: ['user']}))
 
 //Logs out of any open passport session
 authRouter.post('/logout', (req, res, next) => {
