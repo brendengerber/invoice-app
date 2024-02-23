@@ -35,6 +35,7 @@ function addTestReq (req, res, next){
 // });
 
 //*****If this works add the frontend base url to .env.example and dokku config files and refactor below to use it */
+//*********if this works, redirect to a success route that sends the user object and redirects to dashboard */
 if(process.env.NODE_ENV === 'production'){
     authRouter.get('/github/callback', passport.authenticate('github', {
         failureRedirect: `api.invoice-app.naughty-cat.com/login`,
@@ -42,8 +43,8 @@ if(process.env.NODE_ENV === 'production'){
     }));
 }else if(process.env.NODE_ENV === 'development'){
     authRouter.get('/github/callback', passport.authenticate('github', {
-        failureRedirect: `localhost:3000/login`,
-        successRedirect: `localhost:3000/dashboard`
+        failureRedirect: `http://localhost:3000/login`,
+        successRedirect: `http://localhost:3000/dashboard`
     }));
 }
 
