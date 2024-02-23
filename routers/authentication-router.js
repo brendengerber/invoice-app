@@ -17,6 +17,20 @@ authRouter.get('/github/callback', passport.authenticate('github', {
     successRedirect: `/authentication/success`
 }));
 
+// //*****If this works add the frontend base url to .env.example and dokku config files and refactor below to use it */
+// if(process.env.NODE_ENV === 'production'){
+//     authRouter.get('/github/callback', passport.authenticate('github', {
+//         failureRedirect: `api.invoice-app.naughty-cat.com/login`,
+//         successRedirect: `api.invoice-app.naughty-cat.com/home`
+//     }));
+// }else if(process.env.NODE_ENV === 'development'){
+//     authRouter.get('/github/callback', passport.authenticate('github', {
+//         failureRedirect: `localhost:3000/login`,
+//         successRedirect: `localhost:3000/home`
+//     }));
+// }
+
+
 //Redirects callback redirects from Oauth to the front end pages not hosted on the api subdomain
 authRouter.get('/failure', (req, res, next) => {
     res.status(401).send();
@@ -24,7 +38,7 @@ authRouter.get('/failure', (req, res, next) => {
 
 authRouter.get('/success', (req, res, next) => {
     console.log(req.test)
-    res.status(200).send(req.user);
+    res.status(200).send(req.test);
 });
 
 authRouter.get('github/test', (req, res, next)=> {
