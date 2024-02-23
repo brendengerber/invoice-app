@@ -17,33 +17,35 @@ function addTestReq (req, res, next){
 //Callback route which Github will call following the authentication attempt
 //User will be redirected based on the success of the authentication attempt
 //*******If this doesnt work with frontend, might need to change redirects to a call back that sends that stuff? */
-authRouter.get('/github/callback', addTestReq, passport.authenticate('github', {
-    failureRedirect: `/authentication/failure`,
-    successRedirect: `/authentication/success`
-}));
+//**********remove addTestReq */
+// authRouter.get('/github/callback', addTestReq, passport.authenticate('github', {
+//     failureRedirect: `/authentication/failure`,
+//     successRedirect: `/authentication/success`
+// }));
 
-//Redirects callback redirects from Oauth to the front end pages not hosted on the api subdomain
-authRouter.get('/failure', (req, res, next) => {
-    res.status(401).send();
-});
+// //Redirects callback redirects from Oauth to the front end pages not hosted on the api subdomain
+// authRouter.get('/failure', (req, res, next) => {
+//     res.status(401).send();
+// });
 
-authRouter.get('/success', (req, res, next) => {
-    console.log(req.test)
-    res.status(200).send(req.test, 'test');
-});
+// //*******change back to sending user after testing if the test goes through */
+// authRouter.get('/success', (req, res, next) => {
+//     console.log(req.test)
+//     res.status(200).send(req.test, 'test');
+// });
 
-// //*****If this works add the frontend base url to .env.example and dokku config files and refactor below to use it */
-// if(process.env.NODE_ENV === 'production'){
-//     authRouter.get('/github/callback', passport.authenticate('github', {
-//         failureRedirect: `api.invoice-app.naughty-cat.com/login`,
-//         successRedirect: `api.invoice-app.naughty-cat.com/home`
-//     }));
-// }else if(process.env.NODE_ENV === 'development'){
-//     authRouter.get('/github/callback', passport.authenticate('github', {
-//         failureRedirect: `localhost:3000/login`,
-//         successRedirect: `localhost:3000/home`
-//     }));
-// }
+//*****If this works add the frontend base url to .env.example and dokku config files and refactor below to use it */
+if(process.env.NODE_ENV === 'production'){
+    authRouter.get('/github/callback', passport.authenticate('github', {
+        failureRedirect: `api.invoice-app.naughty-cat.com/login`,
+        successRedirect: `api.invoice-app.naughty-cat.com/dashboard`
+    }));
+}else if(process.env.NODE_ENV === 'development'){
+    authRouter.get('/github/callback', passport.authenticate('github', {
+        failureRedirect: `localhost:3000/login`,
+        successRedirect: `localhost:3000/dashboard`
+    }));
+}
 
 //Logs out of any open passport session
 authRouter.post('/logout', (req, res, next) => {
