@@ -14,9 +14,9 @@ let successRedirectURL;
 let logoutRedirectURL;
 
 if(process.env.NODE_ENV === 'production'){
-    failureRedirectURL = `api.invoice-app.naughty-cat.com/login`;
-    successRedirectURL = `api.invoice-app.naughty-cat.com/dashboard`;
-    logoutRedirectURL = `api.invoice-app.naughty-cat.com/login`;
+    failureRedirectURL = `${process.env.FRONT_END_URL}/login`;
+    successRedirectURL = `${process.env.FRONT_END_URL}/dashboard`;
+    logoutRedirectURL = `${process.env.FRONT_END_URL}/login`;
 }else if(process.env.NODE_ENV === 'development'){
     failureRedirectURL = `http://localhost:3000/login`;
     successRedirectURL = `http://localhost:3000/dashboard`;
