@@ -55,11 +55,12 @@ app.use(
 );
 
 // ***********Change this for production to match real url, can add an if to use one when NODE_ENV is prod/dev */
+// ***************uncomment below???
 app.use(
   cors({
     origin: "http://localhost:3000", // allow to server to accept request from different origin
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true // allow session cookie from browser to pass through
+    // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    // credentials: true // allow session cookie from browser to pass through
   })
 );
 
