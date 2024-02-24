@@ -36,11 +36,11 @@ authRouter.get('/github/callback', passport.authenticate('github', {
 
 //Logs out of any open passport session
 authRouter.post('/logout', (req, res, next) => {
-    req.logout(req.user, function(err){
+    req.logout(function(err){
         if(err){
             return next(err);
         }
-        res.status(200).send();
+        res.redirect(logoutRedirectURL);
     })
 });
 
