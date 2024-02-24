@@ -32,7 +32,6 @@ app.use(express.urlencoded({extended: true}));
 app.use(
   cors({
     origin: "*", // allow to server to accept request from different origin
-    credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true // allow session cookie from browser to pass through
   })
@@ -42,17 +41,6 @@ app.use(
 app.use(helmet());
 app.disable('x-powered-by');
 app.use(xss());
-
-// ***********Change this for production to match real url, can add an if to use one when NODE_ENV is prod/dev */
-// ***************uncomment below???
-app.use(
-  cors({
-    origin: "*", // allow to server to accept request from different origin
-    credentials: true,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true // allow session cookie from browser to pass through
-  })
-);
 
 //Configures the session store
 var sessionStore = new SequelizeStore({
