@@ -36,6 +36,10 @@ schemas = {
             type: String,
             required: false
         },
+        billFromState: {
+            type: String,
+            required: false
+        },
         billFromPostalCode: {
             type: String,
             required: false
@@ -57,6 +61,10 @@ schemas = {
             required: false
         },
         billToCity: {
+            type: String,
+            required: false
+        },
+        billToState: {
             type: String,
             required: false
         },
@@ -279,6 +287,11 @@ const check = {
                 validationErrors.push(err.message);
             }
             try{
+                invoice.billFromState = check.data.string(invoice.billFromState);
+            }catch(err){
+                validationErrors.push(err.message);
+            }
+            try{
                 invoice.billFromPostalCode = check.data.string(invoice.billFromPostalCode);
             }catch(err){
                 validationErrors.push(err.message);
@@ -305,6 +318,11 @@ const check = {
             }
             try{
                 invoice.billToCity = check.data.string(invoice.billToCity);
+            }catch(err){
+                validationErrors.push(err.message);
+            }
+            try{
+                invoice.billToState = check.data.string(invoice.billToState);
             }catch(err){
                 validationErrors.push(err.message);
             }
