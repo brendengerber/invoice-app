@@ -366,8 +366,8 @@ invoiceObject
     "paymentTerms": null,
     "projectDescription": null,
     "amountDue": null,
-    "createdAt": "YYYY-MM-DD",
-    "updatedAt": "YYYY-MM-DD",
+    "createdAt": "YYYY-MM-DD"(internal database field),
+    "updatedAt": "YYYY-MM-DD"(internal database field),
     "invoiceItems": [
         {
             "id": (required if existing),
@@ -377,8 +377,8 @@ invoiceObject
             "quantity": null,
             "price": null,
             "total": null,
-            "createdAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD"
+            "createdAt": "YYYY-MM-DD"(internal database field),
+            "updatedAt": "YYYY-MM-DD"(internal database field)
         },
         {
             "id": (required if existing),
@@ -388,8 +388,8 @@ invoiceObject
             "quantity": null,
             "price": null,
             "total": null,
-            "createdAt": "YYYY-MM-DD",
-            "updatedAt": "YYYY-MM-DD"
+            "createdAt": "YYYY-MM-DD"(internal database field),
+            "updatedAt": "YYYY-MM-DD"(internal database field)
         }
     ]
 }
