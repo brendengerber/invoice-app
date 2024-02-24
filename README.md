@@ -16,7 +16,7 @@
 ## **Summary of API Specification**
 
 Location: `https://api.invoice-app.naughty-cat.com`
-Useage: In order to test routes in browser, make sure to visit the authentication [URL](https://api.invoice-app.naughty-cat.com/authentication/github). Once you have authenticated a cookie will be stored in your browser and sent on subsequent requests. If you want to test routes with postman, visit a route in browser click inspect => application => cookies and copy the sid string. Then in postman click headers and add "cookie" as the key and "connect.sid=some-long-string" which you copied in the previous step.
+Usage: In order to test routes in browser, make sure to visit the authentication [URL](https://api.invoice-app.naughty-cat.com/authentication/github). Once you have authenticated a cookie will be stored in your browser and sent on subsequent requests. If you want to test routes with postman, visit a route in browser click inspect => application => cookies and copy the sid string. Then in postman click headers and add "cookie" as the key and "connect.sid=some-long-string" which you copied in the previous step.
 
 Note: Any rought accessed by an unauthenticated user will return status 401, which can be included in if statement checks on all fetches on the front end. If unauthorized, redirect to the login url. 
 
@@ -24,7 +24,7 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 
 ### Endpoint: User Github Authentication
 * Description: Authenticates a User via Github Oauth 2.0 and starts a session.
-* Notes: User will be redirected (idealy in a new window) to authenticate, once the Oauth dance has finsished, front end can check the status code returned and redirect accordingly (likey to user profile page or back to login screen).
+* Notes: User will be redirected to authenticate via Oauth. Once the Oauth dance has finsished user will be redirected. The base URL for redirect will be "localhost:3000" in development, and in production it will be the real URL where the front end is hosted.
 * Path: `/authentication/github`
 * Method: GET
 * Success Redirect: `/dashboard`
@@ -32,9 +32,10 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 
 ### Endpoint: User Logout
 * Description: Logs a user out of their current session.
+* Notes: User will be redirected after logging out. The base URL for redirect will be "localhost:3000" in development, and in production it will be the real URL where the front end is hosted.
 * Path: `/authentication/logout`
 * Method: POST
-* Success Redirect: `/dashboard`
+* Success Redirect: `/login`
 
 ### **2. USER ENDPOINTS**
 
