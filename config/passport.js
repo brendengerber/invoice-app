@@ -12,7 +12,7 @@ passport.use(
         {
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            callbackURL: `${process.env.URL}/authentication/github/callback`
+            callbackURL: `${process.env.BACK_END_URL}/authentication/github/callback`
         },
         //This portion is called if there is no open session (i.e. the browser does not send a cookie)
         //It then associates the github profile to a user in the application database 
