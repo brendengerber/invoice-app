@@ -21,6 +21,9 @@ module.exports = (sequelize, Sequelize, DataType) => {
         billFromCity: {
          type: DataType.STRING(150)
         },
+        billFromState: {
+         type: DataType.STRING(150)
+        },
         billFromPostalCode: {
          type: DataType.STRING(15)
         },
@@ -37,6 +40,9 @@ module.exports = (sequelize, Sequelize, DataType) => {
          type: DataType.STRING(150)
         },
         billToCity: {
+         type: DataType.STRING(150)
+        },
+        billToState: {
          type: DataType.STRING(150)
         },
         billToPostalCode: {
