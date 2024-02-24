@@ -54,8 +54,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     "photoUrl": null,
     "email": null,
     "roles": "80b0de9d-3dd2-487a-8b9c-e81770417fb0",
-    "createdAt": "2024-02-04",
-    "updatedAt": "2024-02-04"
+    "createdAt": "2024-02-04" (internal database field),
+    "updatedAt": "2024-02-04" (internal database field)
 }
 
 ```
@@ -85,8 +85,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     "paymentTerms": string,
     "projectDescription": string,
     "amountDue": number (xxx.xx),
-    "createdAt": string ("YYYY-MM-DD"),
-    "updatedAt": string ("YYYY-MM-DD"),
+    "createdAt": string ("YYYY-MM-DD")(internal database field),
+    "updatedAt": string ("YYYY-MM-DD")(internal database field),
     "invoiceItems": [
         {
             "id": UUID,
@@ -96,8 +96,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
             "quantity": number,
             "price": number (xxx.xx),
             "total": number (xxx.xx),
-            "createdAt": string ("YYYY-MM-DD"),
-            "updatedAt": string ("YYYY-MM-DD")
+            "createdAt": string ("YYYY-MM-DD")(internal database field),
+            "updatedAt": string ("YYYY-MM-DD")(internal database field)
         },
         {
             "id": UUID,
@@ -107,8 +107,8 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
             "quantity": number,
             "price": number (xxx.xx),
             "total": number (xxx.xx),
-            "createdAt": string ("YYYY-MM-DD"),
-            "updatedAt": string ("YYYY-MM-DD")
+            "createdAt": string ("YYYY-MM-DD")(internal database field),
+            "updatedAt": string ("YYYY-MM-DD")(internal database field)
         }
     ]
 }
