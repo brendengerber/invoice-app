@@ -27,29 +27,14 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
 * Notes: User will be redirected (idealy in a new window) to authenticate, once the Oauth dance has finsished, front end can check the status code returned and redirect accordingly (likey to user profile page or back to login screen).
 * Path: `/authentication/github`
 * Method: GET
-* Failure Response Code: 401
-* Success Response Code: 200
-* Success Response: JSON Object
-* Sample Success Response: 
-
-```
-{
-    "id": "ed8fdd40-b807-4e51-b1f5-90fb5b7f6e73",
-    "provider": "github",
-    "remoteId": 10082638,
-    "photoUrl": null,
-    "email": null,
-    "roles": "80b0de9d-3dd2-487a-8b9c-e81770417fb0",
-    "createdAt": "2024-02-04",
-    "updatedAt": "2024-02-04"
-}
-```
+* Success Redirect: `/dashboard`
+* Failure Redirect: `/login`
 
 ### Endpoint: User Logout
 * Description: Logs a user out of their current session.
-* Path: `/logout`
+* Path: `/authentication/logout`
 * Method: POST
-* Response: Redirect to homepage
+* Success Redirect: `/dashboard`
 
 ### **2. USER ENDPOINTS**
 
@@ -99,7 +84,6 @@ Note: Any rought accessed by an unauthenticated user will return status 401, whi
     "projectDescription": string,
     "amountDue": number (xxx.xx),
     "createdAt": string ("YYYY-MM-DD"),
-    "UpdatedAt": string ("YYYY-MM-DD"),
     "updatedAt": string ("YYYY-MM-DD"),
     "invoiceItems": [
         {
@@ -328,7 +312,6 @@ invoiceObject
     "projectDescription": null,
     "amountDue": null,
     "createdAt": "YYYY-MM-DD",
-    "UpdatedAt": "YYYY-MM-DD",
     "updatedAt": "YYYY-MM-DD",
     "invoiceItems": [
         {
@@ -382,7 +365,6 @@ invoiceObject
     "projectDescription": null,
     "amountDue": null,
     "createdAt": "YYYY-MM-DD",
-    "UpdatedAt": "YYYY-MM-DD",
     "updatedAt": "YYYY-MM-DD",
     "invoiceItems": [
         {
