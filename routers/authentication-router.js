@@ -40,7 +40,7 @@ authRouter.post('/logout', (req, res, next) => {
         if(err){
             return next(err);
         }
-        res.send({body: 'logout success'});
+        res.redirect(logoutRedirectURL);
     })
 });
 
