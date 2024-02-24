@@ -20,7 +20,7 @@ if(process.env.NODE_ENV === 'production'){
 }else if(process.env.NODE_ENV === 'development'){
     failureRedirectURL = `http://localhost:3000/login`;
     successRedirectURL = `http://localhost:3000/dashboard`;
-    logoutRedirectURL = `http://localhost:3000/login`;
+    logoutRedirectURL = `http://localhost:3000/login/`;
 }
 
 //Authenticates via github oauth
