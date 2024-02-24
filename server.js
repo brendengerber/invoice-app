@@ -37,9 +37,9 @@ app.use(xss());
 app.use(
   cors({
     origin: "*", // allow to server to accept request from different origin
-    credentials: true
-    // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    // credentials: true // allow session cookie from browser to pass through
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true // allow session cookie from browser to pass through
   })
 );
 
