@@ -55,7 +55,7 @@ module.exports = (sequelize, Sequelize, DataType) => {
          type: DataType.DATE
         },
         paymentTerms: {
-         type: DataType.STRING(15000)
+         type: DataType.INTEGER
         },
         projectDescription: {
          type: DataType.STRING(15000)

@@ -81,7 +81,7 @@ schemas = {
             required: false
         },
         paymentTerms: {
-            type: String,
+            type: Number,
             required: false
         },
         projectDescription: {
@@ -342,7 +342,7 @@ const check = {
                 validationErrors.push(err.message);
             }
             try{
-                invoice.paymentTerms = check.data.string(invoice.paymentTerms);
+                invoice.paymentTerms = check.data.integer(invoice.paymentTerms);
             }catch(err){
                 validationErrors.push(err.message);
             }

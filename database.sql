@@ -34,7 +34,7 @@ CREATE TABLE invoices (
   "bill_to_postal_code" varchar(15),
   "bill_to_country" varchar(150),
   "date" date, 
-  "payment_terms" varchar(15000),
+  "payment_terms" integer,
   "project_description" varchar(15000),
   "amount_due" numeric(100, 2),
   "created_at" date,
