@@ -33,7 +33,7 @@ authRouter.get('/github/callback', passport.authenticate('github', {
     successRedirect: successRedirectURL
 }));
 
-authRouter.get('test', (req, res, next) => {
+authRouter.get('/test', (req, res, next) => {
     res.send({"body": "yay"})
 })
 
