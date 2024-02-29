@@ -30,16 +30,17 @@ app.use(express.urlencoded({extended: true}));
 // ***********Change this for production to match real url, can add an if to use one when NODE_ENV is prod/dev */
 // ***************uncomment below???
 app.use(
-  cors()
-  // cors({
-  //   origin: "*", // allow to server to accept request from different origin
-  //   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  //   credentials: true // allow session cookie from browser to pass through
-  // })
+  cors({
+    origin: "*", // allow to server to accept request from different origin
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true // allow session cookie from browser to pass through
+  })
 );
 
 //Security measures
-app.use(helmet());
+app.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
 app.disable('x-powered-by');
 app.use(xss());
 
