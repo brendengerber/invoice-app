@@ -14,12 +14,12 @@ let successRedirectURL;
 let logoutRedirectURL;
 
 if(process.env.NODE_ENV === 'production'){
-    failureRedirectURL = `${process.env.FRONT_END_URL}/login`;
-    successRedirectURL = `${process.env.FRONT_END_URL}/dashboard`;
-    logoutRedirectURL = `${process.env.FRONT_END_URL}/login`;
+    failureRedirectURL = `${process.env.FRONT_END_URL}/login/`;
+    successRedirectURL = `${process.env.FRONT_END_URL}/dashboard/`;
+    logoutRedirectURL = `${process.env.FRONT_END_URL}/login/`;
 }else if(process.env.NODE_ENV === 'development'){
-    failureRedirectURL = `http://localhost:3000/login`;
-    successRedirectURL = `http://localhost:3000/dashboard`;
+    failureRedirectURL = `http://localhost:3000/login/`;
+    successRedirectURL = `http://localhost:3000/dashboard/`;
     logoutRedirectURL = `http://localhost:3000/login/`;
 }
 
@@ -32,6 +32,10 @@ authRouter.get('/github/callback', passport.authenticate('github', {
     failureRedirect: failureRedirectURL,
     successRedirect: successRedirectURL
 }));
+
+authRouter.get('test', (req, res, next) => {
+    res.send({"body": "yay"})
+})
 
 
 //Logs out of any open passport session
