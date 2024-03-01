@@ -12,7 +12,7 @@ const ensureAuthenticated = function(req, res, next){
         if(req.isAuthenticated()){
             return next();
         }else{
-            res.status(401).send("Please login");    
+            res.status(401).json({"message": "Please login"});    
         }
     }catch(err){
         next(err);
