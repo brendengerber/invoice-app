@@ -53,6 +53,7 @@ var sessionStore = new SequelizeStore({
 
 //Sets up Express session to be used on all routes
 //***********Add secure when https is set up and samesite? */
+//httponly for prod?
 //**********Can all session logic be moved to a config file and exported? try after this is working */
 app.use(
   session({
@@ -62,7 +63,7 @@ app.use(
     saveUninitialized: false,
     samesite: 'none',
     secure: true,
-    httpOnly: true,
+    // httpOnly: true,
     secure: false,
     // cookie: { maxAge: 1000 * 60 *60 * 24, httpOnly: false },
     cookie: { maxAge: 1000 * 60 *60 * 24 },
