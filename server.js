@@ -38,9 +38,7 @@ app.use(
 );
 
 //Security measures
-app.use(helmet({
-  crossOriginResourcePolicy: false,
-}));
+app.use(helmet());
 app.disable('x-powered-by');
 app.use(xss());
 
@@ -61,6 +59,7 @@ app.use(
     resave: false,
     proxy: true,
     saveUninitialized: false,
+    httpOnly: false,
     cookie: { maxAge: 1000 * 60 *60 * 24 },
     store: sessionStore
   })
