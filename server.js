@@ -60,7 +60,7 @@ app.use(
     proxy: true,
     saveUninitialized: false,
     // httpOnly: true,
-    secure: true,
+    // secure: true,
     cookie: { maxAge: 1000 * 60 *60 * 24 },
     store: sessionStore
   })
