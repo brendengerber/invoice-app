@@ -33,11 +33,6 @@ authRouter.get('/github/callback', passport.authenticate('github', {
     successRedirect: successRedirectURL
 }));
 
-authRouter.get('/test', (req, res, next) => {
-    res.send({"body": "yay"})
-})
-
-
 //Logs out of any open passport session
 authRouter.post('/logout', (req, res, next) => {
     req.logout(function(err){
