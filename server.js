@@ -59,9 +59,9 @@ app.use(
     resave: false,
     proxy: true,
     saveUninitialized: false,
-    samesite: 'none',
+    // samesite: 'none',
     // httpOnly: true,
-    // secure: true,
+    secure: true,
     // cookie: { maxAge: 1000 * 60 *60 * 24, httpOnly: false },
     cookie: { maxAge: 1000 * 60 *60 * 24 },
     store: sessionStore
