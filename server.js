@@ -35,7 +35,7 @@ app.use(
     // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // allow session cookie from browser to pass through
     // origin: true
-    // origin: 'localhost:3000'
+    origin: 'http://localhost:3000'
   })
 );
 
