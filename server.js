@@ -60,7 +60,7 @@ app.use(
     resave: false,
     proxy: true,
     saveUninitialized: false,
-    samesite: 'none',
+    samesite: 'lax',
     // secure: true,
     // httpOnly: false,
     secure: false,
