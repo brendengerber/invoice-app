@@ -34,8 +34,7 @@ app.use(
     // origin: "*", // allow to server to accept request from different origin
     // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // allow session cookie from browser to pass through
-    // origin: true
-    origin: 'http://localhost:3000'
+    origin: "http://localhost:3000"
   })
 );
 
@@ -55,7 +54,6 @@ var sessionStore = new SequelizeStore({
 //Sets up Express session to be used on all routes
 //***********Add secure when https is set up and samesite? */
 //httponly for prod?
-//**********Can all session logic be moved to a config file and exported? try after this is working */
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET,
@@ -63,12 +61,13 @@ app.use(
     proxy: true,
     saveUninitialized: false,
     samesite: 'none',
-    secure: true,
+    // secure: true,
     // httpOnly: false,
     secure: false,
     // cookie: { maxAge: 1000 * 60 *60 * 24, httpOnly: false },
     cookie: { maxAge: 1000 * 60 *60 * 24,
-      domain:'localhost:3000' },
+      // domain:'localhost:3000' 
+    },
     store: sessionStore
   })
 );
