@@ -60,6 +60,7 @@ app.use(
     saveUninitialized: false,
     httpOnly: true,
     cookie: { 
+      partitioned: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : process.env.NODE_ENV === "development" ? "lax" : "lax",
       secure: process.env.NODE_ENV === "production" ? "true" : process.env.NODE_ENV === "development" ? "auto" : "true",
       maxAge: 1000 * 60 *60 * 24
