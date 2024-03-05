@@ -33,7 +33,7 @@ app.use(
     //Allows session cookie from browser to pass through
     credentials: true, 
     //Sets the allowed domain to the domain where the front end is hosted
-    origin: 'http://localhost:3000'
+    origin: process.env.FRONT_END_URL
   })
 );
 
@@ -53,6 +53,7 @@ var sessionStore = new SequelizeStore({
 //Sets up Express session to be used on all routes
 //Sets cookie settings depending on NODE_ENV to allow frontend to send credentials appropriately in requests
 //Samesite none can be used with secure to test a local front end with a hosted back end, but appears it will be deprecated soon
+//*****Might need to playe with sameSite in production, but should work if one is hosted on a subdomain */
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET,
@@ -61,7 +62,7 @@ app.use(
     saveUninitialized: false,
     httpOnly: true,
     cookie: { 
-      sameSite: 'lax',
+      sameSite: 'none',
       secure: process.env.NODE_ENV === "production" ? "true" : process.env.NODE_ENV === "development" ? "auto" : "true",
       maxAge: 1000 * 60 *60 * 24
     },
