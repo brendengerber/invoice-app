@@ -1,7 +1,6 @@
 # Invoice App
 ## **Desctiption**
 
-
 ## **Technologies**
 1. JavaScript
 2. Node.js 
@@ -16,6 +15,14 @@
 ## **Setup**
 * When the server is set to development, make sure the front end is running on port 3000. Important for redirects, cors, cookies, etc.
 * When running the server locally for development, set the server env variables to use the development oAuth app which accepts requests from localhost:3001.
+* When fetching the api make sure to include credentials:
+```
+fetch(`https://api.invoice-app.naughty-cat.com/invoices/all`, {credentials: 'include'})
+.then(response => response.json())
+.then(response => console.log(response))
+.catch(err => console.log(err))
+
+```
 
 ## **Summary of API Specification**
 Location: `https://api.invoice-app.naughty-cat.com`
