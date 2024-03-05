@@ -33,7 +33,7 @@ app.use(
     //Allows session cookie from browser to pass through
     credentials: true, 
     //Sets the allowed domain to the domain where the front end is hosted
-    origin: 'https://test.naughty-cat.com'
+    origin: process.env.FRONT_END_URL
   })
 );
 
