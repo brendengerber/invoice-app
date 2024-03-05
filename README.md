@@ -13,10 +13,10 @@
 9. Github Actions
 
 ## **Setup**
-* When the server is set to development, make sure the front end is running on port 3000. Important for redirects, cors, cookies, etc.
-* It is advisable to run the server locally during front end development. It may be helpful to include a BACK_END_URL variable on the front end which can be used in fetches and set to localhost:3001 for development, and the real URL for production.
+* When the server is set to development, make sure the front end is running on port 3000. Important for redirects oAuth redirects.
+* It is advisable to run the server locally on localhost:3001 during front end development. It may be helpful to include a BACK_END_URL variable on the front end which can be used in fetches and set to localhost:3001 for development, and the production server's URL for production.
 * Alternatively you can use the production server, but install an SSL cert on your localhost.
-* When running the server locally for development, set the server env variables to use the development oAuth app which accepts requests from localhost:3001.
+* When running the server locally for development, set the server env variables to use the development oAuth app which accepts requests from localhost:3001 rather than the production server's url.
 * When fetching the api make sure to include credentials:
 ```
 fetch(`https://api.invoice-app.naughty-cat.com/invoices/all`, {credentials: 'include'})

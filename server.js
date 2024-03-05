@@ -51,6 +51,7 @@ var sessionStore = new SequelizeStore({
 // sessionStore.sync();
 
 //Sets up Express session to be used on all routes
+//Sets cookie settings depending on NODE_ENV to allow frontend to send credentials appropriately in requests
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET,
