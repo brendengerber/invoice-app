@@ -27,13 +27,13 @@ app.use(express.json());
 //Parses request urlencoded data to json
 app.use(express.urlencoded({extended: true}));
 
-// ***********Change this for production to match real url, can add an if to use one when NODE_ENV is prod/dev */
-// ***************uncomment below???
-/*********set origin to real origin in production, true also appears to work */
+//Sets up cors
 app.use(
   cors({
-    credentials: true, // allow session cookie from browser to pass through
-    origin: 'http://localhost:3000'
+    //Allows session cookie from browser to pass through
+    credentials: true, 
+    //Sets the allowed domain to the domain where the front end is hosted
+    origin: process.env.FRONT_END_URL
   })
 );
 
@@ -51,42 +51,21 @@ var sessionStore = new SequelizeStore({
 // sessionStore.sync();
 
 //Sets up Express session to be used on all routes
-//***********Add secure when https is set up and samesite? */
-//httponly for prod?
-//samesite none for prod?
-//secure true for prod?
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     proxy: true,
     saveUninitialized: false,
-    httpOnly: false,
+    httpOnly: true,
     cookie: { 
-      sameSite: "none",
-      secure: "true",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : process.env.NODE_ENV === "development" ? "lax" : "lax",
+      secure: process.env.NODE_ENV === "production" ? "true" : process.env.NODE_ENV === "development" ? "auto" : "true",
       maxAge: 1000 * 60 *60 * 24
     },
     store: sessionStore
   })
 );
-
-//Working below when running both server and frontend on local host
-// app.use(
-//   session({
-//     secret: process.env.EXPRESS_SESSION_SECRET,
-//     resave: false,
-//     proxy: true,
-//     saveUninitialized: false,
-//     httpOnly: false,
-//     cookie: { 
-//       sameSite: "lax",
-//       secure: "auto",
-//       maxAge: 1000 * 60 *60 * 24
-//     },
-//     store: sessionStore
-//   })
-// );
 
 //Initializes passport to be used on all routes
 app.use(passport.initialize());
