@@ -54,7 +54,6 @@ var sessionStore = new SequelizeStore({
 //Sets cookie settings depending on NODE_ENV to allow frontend to send credentials appropriately in requests
 //Sets secure to true for production (requires frontend to be hosted with ssl) and auto for development (allowing to connect to localhost without ssl)
 //Samesite none used to be able to be used with secure to test a local front end with a hosted back end, but appears it will be deprecated soon
-//*****Might need to playe with sameSite in production, but should work if one is hosted on a subdomain
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET,
