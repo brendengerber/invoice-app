@@ -13,8 +13,10 @@
 8. Digital Ocean Droplets
 9. Github Actions
 
-## **Summary of API Specification**
+## **Setup**
+When the server is set to development, make sure the front end is running on port 3000. Important for redirects, cors, cookies, etc.
 
+## **Summary of API Specification**
 Location: `https://api.invoice-app.naughty-cat.com`
 Usage: In order to test routes in browser, make sure to visit the authentication [URL](https://api.invoice-app.naughty-cat.com/authentication/github). Once you have authenticated a cookie will be stored in your browser and sent on subsequent requests. If you want to test routes with postman, visit a route in browser click inspect => application => cookies and copy the sid string. Then in postman click headers and add "cookie" as the key and "connect.sid=some-long-string" which you copied in the previous step.
 
