@@ -429,7 +429,9 @@ const check = {
                     throw err;
                 }else{
                     //Throws a non specific error if server is set to production in order to avoid giving detailed information to potentially bad actors
-                    throw new Error ("The server encountered an unknown error", {statusCode: 500});
+                    let error = new Error ("The server encountered an unknown error");
+                    error.status = 500;
+                    throw error
                 }
             }
         }

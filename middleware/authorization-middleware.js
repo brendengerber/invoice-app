@@ -40,7 +40,9 @@ function verifyUserAuthorization(roles, resource){
             }
 
             //A 401 error is thrown by default unless a valid authorized role is found
-            throw new Error("Access denied", {statusCode: 401});
+            let error = new Error("Access denied");
+            error.status = 401;
+            throw error
             
         }catch(err){
             next(err);

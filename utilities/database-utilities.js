@@ -19,7 +19,9 @@ function unwrapQueryResults(results){
 //Checks for empty results and throws an error if the query returned no results
 function checkForEmptyResults(results){
     if(results === undefined || results === null || results.length === 0){
-        throw new Error("The query returned no results", {statusCode: 404});   
+        let error = new Error("The query returned no results");   
+        error.status = 404;
+        throw error;
     }
 };
 
@@ -30,7 +32,9 @@ function processQueryError(err){
         return err
     //Standard Access denied message for production so as to not disclose if a resource exists or not to potential bad actors
     }else{
-        return new Error("Access denied", {statusCode: 401})
+        let error = new Error("Access denied");
+        error.status = 401;
+        return error
     }
 };
 

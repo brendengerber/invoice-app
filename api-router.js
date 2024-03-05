@@ -18,10 +18,11 @@ apiRouter.use('/user', userRouter);
 
 //Handles all unhandled errors
 apiRouter.use((err, req, res, next) => {
-    if(!err.status){
+  console.log(err.status)  
+  if(!err.status){
       err.status = 500;
     }
-    res.status(err.status).send(err.message);
+    res.status(err.status).json({message: err.message});
   });
 
 //Exports the router
