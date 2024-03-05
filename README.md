@@ -14,6 +14,8 @@
 
 ## **Setup**
 * When the server is set to development, make sure the front end is running on port 3000. Important for redirects, cors, cookies, etc.
+* It is advisable to run the server locally during front end development. It may be helpful to include a BACK_END_URL variable on the front end which can be used in fetches and set to localhost:3001 for development, and the real URL for production.
+* Alternatively you can use the production server, but install an SSL cert on your localhost.
 * When running the server locally for development, set the server env variables to use the development oAuth app which accepts requests from localhost:3001.
 * When fetching the api make sure to include credentials:
 ```
