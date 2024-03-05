@@ -29,13 +29,10 @@ app.use(express.urlencoded({extended: true}));
 
 // ***********Change this for production to match real url, can add an if to use one when NODE_ENV is prod/dev */
 // ***************uncomment below???
+/*********set origin to real origin in production, true also appears to work */
 app.use(
   cors({
-    // origin: "*", // allow to server to accept request from different origin
-    // methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // allow session cookie from browser to pass through
-    // origin: true
-    // origin: '*'
     origin: 'http://localhost:3000'
   })
 );
@@ -56,22 +53,19 @@ var sessionStore = new SequelizeStore({
 //Sets up Express session to be used on all routes
 //***********Add secure when https is set up and samesite? */
 //httponly for prod?
+//samesite none for prod?
+//secure true for prod?
 app.use(
   session({
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     proxy: true,
     saveUninitialized: false,
-    // samesite: 'lax',
-    // secure: true,
     httpOnly: false,
-    // secure: false,
-    // cookie: { maxAge: 1000 * 60 *60 * 24, httpOnly: false },
     cookie: { 
       sameSite: "lax",
       secure: "auto",
       maxAge: 1000 * 60 *60 * 24
-      // domain:'localhost:3000' 
     },
     store: sessionStore
   })
