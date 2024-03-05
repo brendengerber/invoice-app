@@ -63,13 +63,30 @@ app.use(
     saveUninitialized: false,
     httpOnly: false,
     cookie: { 
-      sameSite: "lax",
-      secure: "auto",
+      sameSite: "none",
+      secure: "true",
       maxAge: 1000 * 60 *60 * 24
     },
     store: sessionStore
   })
 );
+
+//Working below when running both server and frontend on local host
+// app.use(
+//   session({
+//     secret: process.env.EXPRESS_SESSION_SECRET,
+//     resave: false,
+//     proxy: true,
+//     saveUninitialized: false,
+//     httpOnly: false,
+//     cookie: { 
+//       sameSite: "lax",
+//       secure: "auto",
+//       maxAge: 1000 * 60 *60 * 24
+//     },
+//     store: sessionStore
+//   })
+// );
 
 //Initializes passport to be used on all routes
 app.use(passport.initialize());
