@@ -14,7 +14,8 @@
 9. Github Actions
 
 ## **Setup**
-When the server is set to development, make sure the front end is running on port 3000. Important for redirects, cors, cookies, etc.
+* When the server is set to development, make sure the front end is running on port 3000. Important for redirects, cors, cookies, etc.
+* When running the server locally for development, set the server env variables to use the development oAuth app which accepts requests from localhost:3001.
 
 ## **Summary of API Specification**
 Location: `https://api.invoice-app.naughty-cat.com`
