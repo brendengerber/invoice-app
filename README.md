@@ -301,7 +301,7 @@ invoiceObject
 ### Endpoint: Add New Invoice
 * Description: Adds a new invoice associated with a logged in user.
 * Notes: Invoice objects sent to add do not need to include an id properties.
-* Path: `/invoices/:id`
+* Path: `/invoices`
 * Method: POST
 * Response Success Code: 201
 * Response: JSON of the newly created resource including assigned ids

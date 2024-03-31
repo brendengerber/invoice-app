@@ -24,7 +24,6 @@ passport.use(
         //This id can then be used by deserialize when it recieves the session cookie to look up and attatch the full user object to req.user
         //Note that req.user will now be the full user from the app database not the oauth profile
         (accessToken, refreshToken, profile, done) => {
-            console.log(profile._json.avatar_url)
             //Finds a user based on the provider and providerId/remoteId from the profile obtained by Oauth
             //If the user does not exist it creates one and assigns it an app specific UUID
             db.user.findOrCreate({

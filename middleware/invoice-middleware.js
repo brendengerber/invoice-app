@@ -100,7 +100,6 @@ function getUserInvoiceById(req, res, next){
         checkForEmptyResults(results);
         return unwrapQueryResults(results);
     }).then(results => {
-        console.log('results', typeof results.amountDue)
         req.invoice = results;
         next();
     }).catch(err => {

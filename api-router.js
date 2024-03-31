@@ -18,7 +18,6 @@ apiRouter.use('/user', userRouter);
 
 //Handles all unhandled errors
 apiRouter.use((err, req, res, next) => {
-  console.log(err.status)  
   if(!err.status){
       err.status = 500;
     }

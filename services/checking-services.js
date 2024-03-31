@@ -25,7 +25,7 @@ schemas = {
             required: false
         },
         invoiceNumber: {
-            type: Number,
+            type: String,
             required: false
         },
         billFromStreetAddress: {
@@ -155,7 +155,7 @@ const check = {
                 if(/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i.test(id)){
                     return validator.escape(id);
                 }else{
-                    throw new Error(`Error: the ID ${id} is not a valid v4 UUID.`);
+                    throw new Error(`The ID ${id} is not a valid v4 UUID.`);
                 }
             }else{
                 return id;
@@ -170,7 +170,7 @@ const check = {
                 if(validator.isDate(date, {format: 'YYYY-MM-DD', delimiters: ['-']})){
                     return validator.escape(date);
                 }else{
-                    throw new Error(`Error: the date ${date} does not follow the YYYY-MM-DD date format.`);
+                    throw new Error(`The date ${date} does not follow the YYYY-MM-DD date format.`);
                 }
             }else{
                 return date;
@@ -181,7 +181,7 @@ const check = {
         string: function(string){
             if(string){
                 if(typeof string !== 'string'){
-                    throw new Error(`Error: the string ${string} is not of type string.`);
+                    throw new Error(`The string ${string} is not of type string.`);
                 }else{
                     return validator.escape(string);
                 }
@@ -199,7 +199,7 @@ const check = {
                 integer = integer.toString();
                 integer = validator.escape(integer);
                 if(!validator.isInt(integer)){
-                    throw new Error(`Error: the integer ${integer} is not of type integer.`);
+                    throw new Error(`The integer ${integer} is not of type integer.`);
                 }else{
                     //Converts integer back to a type number
                     return Number(integer);
@@ -219,7 +219,7 @@ const check = {
                 money = money.toString();
                 money = validator.escape(money);
                 if(!validator.isCurrency(money, {thousands_separator: '', digits_after_decimal: [0, 1, 2]})){
-                    throw new Error(`Error: the budget ${money} does not follow the xxx.xx currency format.`);
+                    throw new Error(`The budget ${money} does not follow the xxx.xx currency format.`);
                 }else{
                     //Converts money back to a type number
                     return Number(money);
@@ -272,7 +272,7 @@ const check = {
                 validationErrors.push(err.message);
             }
             try{
-                invoice.invoiceNumber = check.data.integer(invoice.invoiceNumber);
+                invoice.invoiceNumber = check.data.string(invoice.invoiceNumber);
             }catch(err){
                 validationErrors.push(err.message);
             }
@@ -366,56 +366,58 @@ const check = {
             }catch(err){
                 validationErrors.push(err.message);
             }
-            //Validates and sanitizes the invoice items of an invoice
-            for(let invoiceItem of invoice.invoiceItems){
-                try{
-                    invoiceItem.id = check.data.id(invoiceItem.id);
-                    
-                }catch(err){
-                    validationErrors.push(err.message);
+            //Validates and sanitizes the invoice items of an invoice if they exist (as they might not in a draft)
+            if(invoice.invoiceItems){
+                for(let invoiceItem of invoice.invoiceItems){
+                    try{
+                        invoiceItem.id = check.data.id(invoiceItem.id);
+                        
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }
+                    try{
+                        invoiceItem.invoiceId = check.data.id(invoiceItem.invoiceId);
+                        
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }
+                    try{
+                        invoiceItem.userId = check.data.id(invoiceItem.userId);
+                        
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }
+                    try{
+                        invoiceItem.name = check.data.string(invoiceItem.name);
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }
+                    try{
+                        invoiceItem.quantity = check.data.integer(invoiceItem.quantity);
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }
+                    try{
+                        invoiceItem.price = check.data.money(invoiceItem.price);
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }
+                    try{
+                        invoiceItem.total = check.data.money(invoiceItem.total);
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }
+                    try{
+                        invoiceItem.createdAt = check.data.date(invoiceItem.createdAt);
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }
+                    try{
+                        invoiceItem.updatedAt = check.data.date(invoiceItem.updatedAt);
+                    }catch(err){
+                        validationErrors.push(err.message);
+                    }                     
                 }
-                try{
-                    invoiceItem.invoiceId = check.data.id(invoiceItem.invoiceId);
-                    
-                }catch(err){
-                    validationErrors.push(err.message);
-                }
-                try{
-                    invoiceItem.userId = check.data.id(invoiceItem.userId);
-                    
-                }catch(err){
-                    validationErrors.push(err.message);
-                }
-                try{
-                    invoiceItem.name = check.data.string(invoiceItem.name);
-                }catch(err){
-                    validationErrors.push(err.message);
-                }
-                try{
-                    invoiceItem.quantity = check.data.integer(invoiceItem.quantity);
-                }catch(err){
-                    validationErrors.push(err.message);
-                }
-                try{
-                    invoiceItem.price = check.data.money(invoiceItem.price);
-                }catch(err){
-                    validationErrors.push(err.message);
-                }
-                try{
-                    invoiceItem.total = check.data.money(invoiceItem.total);
-                }catch(err){
-                    validationErrors.push(err.message);
-                }
-                try{
-                    invoiceItem.createdAt = check.data.date(invoiceItem.createdAt);
-                }catch(err){
-                    validationErrors.push(err.message);
-                }
-                try{
-                    invoiceItem.updatedAt = check.data.date(invoiceItem.updatedAt);
-                }catch(err){
-                    validationErrors.push(err.message);
-                }                     
             }
             //Checks if any errors have been recorded and if not, returns the envelope
             if(validationErrors.length === 0){

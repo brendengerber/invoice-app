@@ -20,7 +20,7 @@ CREATE TABLE invoices (
   "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   "user_id" UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
   "status" varchar(15),
-  "invoice_number" integer,
+  "invoice_number" varchar(150),
   "bill_from_street_address" varchar(150),
   "bill_from_city" varchar(150),
   "bill_from_state" varchar(150),
