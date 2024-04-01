@@ -8,7 +8,7 @@
 //If groups are implemented the the groupId should be included
 
 const db = require('../models/index.js');
-const {unwrapQueryResults, checkForEmptyResults, processQueryError} = require('../utilities/database-utilities.js');
+const {unwrapQueryResults, checkForEmptyResults} = require('../utilities/database-utilities.js');
 const _ = require('lodash');
 
 //Gets all user invoices
@@ -40,7 +40,7 @@ function getUserInvoices(status = undefined){
             req.invoices = unwrapQueryResults(results);
             next();
         }).catch(err => {
-            next(processQueryError(err));
+            next(err);
         });
     }; 
 };

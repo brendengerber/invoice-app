@@ -21,7 +21,12 @@ apiRouter.use((err, req, res, next) => {
   if(!err.status){
       err.status = 500;
     }
-    res.status(err.status).json({message: err.message});
+    //Does not discolse error message to potential bad actors while in production, but allows 404s for empty queries as this is useful for the front end
+    if(process.env.NODE_ENV === 'production' && err.status !== 404){
+      res.status(500).json({message: "An unknown server error has occured"});
+    }else{
+      res.status(err.status).json({message: err.message});
+    }
   });
 
 //Exports the router
