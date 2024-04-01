@@ -24,9 +24,10 @@ schemas = {
             type: String,
             required: false
         },
+        //Requires invoiceNumber because it is used in React URLs and will crash application if it is null
         invoiceNumber: {
             type: String,
-            required: false
+            required: true
         },
         billFromStreetAddress: {
             type: String,
